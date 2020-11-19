@@ -8,7 +8,7 @@ import java.util.Map;
  * <p>
  * DO NOT MODIFY
  */
-public final class UserInputData {
+public final class  UserInputData {
     /**
      * User's username
      */
