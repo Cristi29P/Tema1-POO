@@ -1,24 +1,16 @@
 package database;
-
 import actor.Actor;
+import java.util.ArrayList;
 
-import java.util.List;
 
 public class ActorDatabase {
-    private List<Actor> actors;
+    private ArrayList<Actor> actors;
 
-    public ActorDatabase(List<Actor> actors) {
+    public ActorDatabase(ArrayList<Actor> actors) {
         this.actors = actors;
     }
 
-    public List<Actor> getActors() {
+    public ArrayList<Actor> getActors() {
         return actors;
-    }
-
-    @Override
-    public String toString() {
-        return "ActorDatabase{" +
-                "actors=" + actors +
-                '}';
     }
 }

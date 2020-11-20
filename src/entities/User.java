@@ -9,6 +9,10 @@ public class User {
     private Map<String, Integer> history;
     private ArrayList<String> favoriteMovies;
 
+    public User() {
+
+    }
+
     public User(String username, String subscriptionType, Map<String, Integer> history, ArrayList<String> favoriteMovies) {
         this.username = username;
         this.subscriptionType = subscriptionType;
@@ -46,15 +50,5 @@ public class User {
 
     public void setFavoriteMovies(ArrayList<String> favoriteMovies) {
         this.favoriteMovies = favoriteMovies;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", subscriptionType='" + subscriptionType + '\'' +
-                ", history=" + history +
-                ", favoriteMovies=" + favoriteMovies +
-                '}';
     }
 }

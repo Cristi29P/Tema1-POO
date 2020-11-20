@@ -9,6 +9,10 @@ public class Actor {
     private ArrayList<String> filmography;
     private Map<ActorsAwards, Integer> awards;
 
+    public Actor() {
+
+    }
+
     public Actor(String name, String careerDescription, ArrayList<String> filmography, Map<ActorsAwards, Integer> awards) {
         this.name = name;
         this.careerDescription = careerDescription;
@@ -46,15 +50,5 @@ public class Actor {
 
     public void setAwards(Map<ActorsAwards, Integer> awards) {
         this.awards = awards;
-    }
-
-    @Override
-    public String toString() {
-        return "Actor{" +
-                "name='" + name + '\'' +
-                ", careerDescription='" + careerDescription + '\'' +
-                ", filmography=" + filmography +
-                ", awards=" + awards +
-                '}';
     }
 }

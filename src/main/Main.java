@@ -3,6 +3,7 @@ package main;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
+import database.*;
 import fileio.Input;
 import fileio.InputLoader;
 import fileio.Writer;
@@ -71,6 +72,13 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
+
+        DatabaseCreator creatorBazaDeDate = new DatabaseCreator(input);
+
+        ActorDatabase actoriBazaDeDate = creatorBazaDeDate.generateActorDatabase();
+        UserDatabase useriBazaDeDate = creatorBazaDeDate.generateUserDatabase();
+        MovieDatabase filmeBazaDeDate = creatorBazaDeDate.generateMovieDatabase();
+        ShowDatabase serialeBazaDeDate = creatorBazaDeDate.generateShowDatabase();
 
 
 

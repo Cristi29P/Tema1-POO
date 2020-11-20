@@ -1,23 +1,16 @@
 package database;
 
 import entities.User;
-import java.util.List;
+import java.util.ArrayList;
 
 public class UserDatabase {
-    private List<User> users;
+    private ArrayList<User> users;
 
-    public UserDatabase(List<User> users) {
+    public UserDatabase(ArrayList<User> users) {
         this.users = users;
     }
 
-    public List<User> getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDatabase{" +
-                "users=" + users +
-                '}';
     }
 }

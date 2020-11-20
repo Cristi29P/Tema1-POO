@@ -6,6 +6,10 @@ public class Show extends Video{
     private int numberOfSeasons;
     private ArrayList<Season> sezoane;
 
+    public Show() {
+
+    }
+
     public Show(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres, int numberOfSeasons, ArrayList<Season> sezoane) {
         super(title, launchYear, cast, genres);
         this.numberOfSeasons = numberOfSeasons;
@@ -28,11 +32,4 @@ public class Show extends Video{
         this.sezoane = sezoane;
     }
 
-    @Override
-    public String toString() {
-        return "Show{" +
-                "numberOfSeasons=" + numberOfSeasons +
-                ", sezoane=" + sezoane +
-                '}';
-    }
 }

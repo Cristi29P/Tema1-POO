@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 public class Movie extends Video {
     private int movieLength;
-    private int rating;
+    private ArrayList<Integer> ratings;
 
-    public Movie(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres, int movieLength, int rating) {
+    public Movie() {
+
+    }
+
+    public Movie(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres, int movieLength, ArrayList<Integer> ratings) {
         super(title, launchYear, cast, genres);
         this.movieLength = movieLength;
-        this.rating = rating;
+        this.ratings = ratings;
     }
 
     public int getMovieLength() {
@@ -20,19 +24,12 @@ public class Movie extends Video {
         this.movieLength = movieLength;
     }
 
-    public int getRating() {
-        return rating;
+    public ArrayList<Integer> getRatings() {
+        return ratings;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setRatings(ArrayList<Integer> ratings) {
+        this.ratings = ratings;
     }
 
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "movieLength=" + movieLength +
-                ", rating=" + rating +
-                '}';
-    }
 }

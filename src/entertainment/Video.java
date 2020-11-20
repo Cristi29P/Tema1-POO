@@ -8,6 +8,10 @@ public class Video {
     private ArrayList<String> cast;
     private ArrayList<String> genres;
 
+    public Video() {
+
+    }
+
     public Video(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres) {
         this.title = title;
         this.launchYear = launchYear;
@@ -47,13 +51,4 @@ public class Video {
         this.genres = genres;
     }
 
-    @Override
-    public String toString() {
-        return "Video{" +
-                "title='" + title + '\'' +
-                ", launchYear=" + launchYear +
-                ", cast=" + cast +
-                ", genres=" + genres +
-                '}';
-    }
 }
