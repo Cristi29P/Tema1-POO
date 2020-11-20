@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class Video {
     private String title;
     private int launchYear;
+    private ArrayList<String> cast;
     private ArrayList<String> genres;
 
-    public Video(String title, int launchYear, ArrayList<String> genres) {
+    public Video(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres) {
         this.title = title;
         this.launchYear = launchYear;
+        this.cast = cast;
         this.genres = genres;
     }
 
@@ -29,6 +31,14 @@ public class Video {
         this.launchYear = launchYear;
     }
 
+    public ArrayList<String> getCast() {
+        return cast;
+    }
+
+    public void setCast(ArrayList<String> cast) {
+        this.cast = cast;
+    }
+
     public ArrayList<String> getGenres() {
         return genres;
     }
@@ -42,6 +52,7 @@ public class Video {
         return "Video{" +
                 "title='" + title + '\'' +
                 ", launchYear=" + launchYear +
+                ", cast=" + cast +
                 ", genres=" + genres +
                 '}';
     }

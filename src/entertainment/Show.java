@@ -6,8 +6,8 @@ public class Show extends Video{
     private int numberOfSeasons;
     private ArrayList<Season> sezoane;
 
-    public Show(String title, int launchYear, ArrayList<String> genres, int numberOfSeasons, ArrayList<Season> sezoane) {
-        super(title, launchYear, genres);
+    public Show(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres, int numberOfSeasons, ArrayList<Season> sezoane) {
+        super(title, launchYear, cast, genres);
         this.numberOfSeasons = numberOfSeasons;
         this.sezoane = sezoane;
     }

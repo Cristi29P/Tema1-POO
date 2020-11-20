@@ -76,7 +76,6 @@ public final class Main {
 
 
 
-
         fileWriter.closeJSON(arrayResult);
     }
 }
