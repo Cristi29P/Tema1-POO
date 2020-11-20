@@ -5,8 +5,6 @@ import entertainment.Movie;
 import entertainment.Show;
 import entities.User;
 import fileio.*;
-
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +17,13 @@ public class DatabaseCreator {
 
 
     public ActorDatabase generateActorDatabase() {
-        Actor actorAuxiliar = new Actor();
+
 
         List<ActorInputData> actorsInput = input.getActors();
         ArrayList<Actor> actors = new ArrayList<>();
 
         for(ActorInputData aux: actorsInput) {
+            Actor actorAuxiliar = new Actor();
             actorAuxiliar.setName(aux.getName());
             actorAuxiliar.setCareerDescription((aux.getCareerDescription()));
             actorAuxiliar.setFilmography(aux.getFilmography());
@@ -35,12 +34,13 @@ public class DatabaseCreator {
     }
 
     public UserDatabase generateUserDatabase() {
-        User userAuxiliar = new User();
+
 
         List<UserInputData> usersInput = input.getUsers();
         ArrayList<User> users = new ArrayList<>();
 
         for(UserInputData aux: usersInput) {
+            User userAuxiliar = new User();
             userAuxiliar.setUsername(aux.getUsername());
             userAuxiliar.setSubscriptionType(aux.getSubscriptionType());
             userAuxiliar.setHistory(aux.getHistory());
@@ -52,12 +52,13 @@ public class DatabaseCreator {
      }
 
     public MovieDatabase generateMovieDatabase() {
-        Movie movieAuxiliar = new Movie();
+
 
         List<MovieInputData> moviesInput = input.getMovies();
         ArrayList<Movie> movies = new ArrayList<>();
 
         for(MovieInputData aux: moviesInput) {
+            Movie movieAuxiliar = new Movie();
             movieAuxiliar.setMovieLength(aux.getDuration());
             movieAuxiliar.setCast(aux.getCast());
             movieAuxiliar.setGenres(aux.getGenres());
@@ -72,12 +73,13 @@ public class DatabaseCreator {
 
 
     public ShowDatabase generateShowDatabase() {
-        Show showAuxiliar = new Show();
+
 
         List<SerialInputData> showsInput = input.getSerials();
         ArrayList<Show> shows = new ArrayList<>();
 
         for(SerialInputData aux: showsInput) {
+            Show showAuxiliar = new Show();
             showAuxiliar.setNumberOfSeasons(aux.getNumberSeason());
             showAuxiliar.setSezoane(aux.getSeasons());
             showAuxiliar.setCast(aux.getCast());

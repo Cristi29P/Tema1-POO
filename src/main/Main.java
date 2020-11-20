@@ -85,6 +85,8 @@ public final class Main {
         MovieDatabase filmeBazaDeDate = creatorBazaDeDate.generateMovieDatabase();
         ShowDatabase serialeBazaDeDate = creatorBazaDeDate.generateShowDatabase();
 
+
+
         CommandExecutor executorComenzi = new CommandExecutor();
         QueryExecutor executorQuery = new QueryExecutor();
         ReccomendationExecutor executorRecomandari = new ReccomendationExecutor();
@@ -95,6 +97,10 @@ public final class Main {
             if(aux.getActionType().equals("command")) {
                 if(aux.getType().equals("favorite")) {
                     executorComenzi.addFavorite(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
+                }
+                if(aux.getType().equals("view")) {
+                    executorComenzi.addView(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
                 }
             }
