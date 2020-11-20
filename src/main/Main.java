@@ -1,9 +1,13 @@
 package main;
 
+import Actions.CommandExecutor;
+import Actions.QueryExecutor;
+import Actions.ReccomendationExecutor;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
 import database.*;
+import fileio.ActionInputData;
 import fileio.Input;
 import fileio.InputLoader;
 import fileio.Writer;
@@ -14,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -80,6 +85,20 @@ public final class Main {
         MovieDatabase filmeBazaDeDate = creatorBazaDeDate.generateMovieDatabase();
         ShowDatabase serialeBazaDeDate = creatorBazaDeDate.generateShowDatabase();
 
+        CommandExecutor executorComenzi = new CommandExecutor();
+        QueryExecutor executorQuery = new QueryExecutor();
+        ReccomendationExecutor executorRecomandari = new ReccomendationExecutor();
+
+        List<ActionInputData> actiuni = input.getCommands();
+
+        for(ActionInputData aux: actiuni) {
+            if(aux.getActionType().equals("command")) {
+                if(aux.getType().equals("favorite")) {
+                    executorComenzi.addFavorite(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
+                }
+            }
+        }
 
 
 
