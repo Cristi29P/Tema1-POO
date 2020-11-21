@@ -66,14 +66,6 @@ public class CommandExecutor {
         return null;
     }
 
-    public void addRatingMovie() {
-
-    }
-
-    public void addRatingShow() {
-
-    }
-
     public void addRating(String username, String title, ArrayList<User> users, double grade, int seasonNumber,
                           MovieDatabase filme, ShowDatabase seriale) {
         for(User user: users) {

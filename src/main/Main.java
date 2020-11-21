@@ -85,8 +85,6 @@ public final class Main {
         MovieDatabase filmeBazaDeDate = creatorBazaDeDate.generateMovieDatabase();
         ShowDatabase serialeBazaDeDate = creatorBazaDeDate.generateShowDatabase();
 
-
-
         CommandExecutor executorComenzi = new CommandExecutor();
         QueryExecutor executorQuery = new QueryExecutor();
         ReccomendationExecutor executorRecomandari = new ReccomendationExecutor();
