@@ -8,9 +8,11 @@ public class User {
     private String subscriptionType;
     private Map<String, Integer> history;
     private ArrayList<String> favoriteMovies;
+    private int numarDeRatinguriDate;
 
     public User() {
 
+        numarDeRatinguriDate = 0;
     }
 
     public User(String username, String subscriptionType, Map<String, Integer> history, ArrayList<String> favoriteMovies) {
@@ -18,6 +20,7 @@ public class User {
         this.subscriptionType = subscriptionType;
         this.history = history;
         this.favoriteMovies = favoriteMovies;
+        numarDeRatinguriDate = 0;
     }
 
     public String getUsername() {
@@ -50,5 +53,13 @@ public class User {
 
     public void setFavoriteMovies(ArrayList<String> favoriteMovies) {
         this.favoriteMovies = favoriteMovies;
+    }
+
+    public int getNumarDeRatinguriDate() {
+        return numarDeRatinguriDate;
+    }
+
+    public void setNumarDeRatinguriDate(int numarDeRatinguriDate) {
+        this.numarDeRatinguriDate = numarDeRatinguriDate;
     }
 }

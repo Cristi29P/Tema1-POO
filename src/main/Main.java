@@ -92,28 +92,34 @@ public final class Main {
         List<ActionInputData> actiuni = input.getCommands();
 
         for(ActionInputData aux: actiuni) {
-            if(aux.getActionType().equals("command")) {
-                if(aux.getType().equals("favorite")) {
+            if (aux.getActionType().equals("command")) {
+                if (aux.getType().equals("favorite")) {
                     executorComenzi.addFavorite(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
                 }
-                if(aux.getType().equals("view")) {
+                if (aux.getType().equals("view")) {
                     executorComenzi.addView(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
                 }
-                if(aux.getType().equals("rating")) {
+                if (aux.getType().equals("rating")) {
                     executorComenzi.addRating(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers(),
                             aux.getGrade(), aux.getSeasonNumber(), filmeBazaDeDate, serialeBazaDeDate);
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
                 }
             }
+            if (aux.getActionType().equals("query")) {
+                if (aux.getObjectType().equals("actors")) {
+                    if (aux.getCriteria().equals("average")) {
+//                        exec
+                    }
+                }
+
+                if (aux.getObjectType().equals("users")) {
+                    executorQuery.getNumberOfRatings(aux.getNumber(), aux.getSortType(), useriBazaDeDate);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                }
+            }
         }
-
-
-
-
-
-
         fileWriter.closeJSON(arrayResult);
     }
 }
