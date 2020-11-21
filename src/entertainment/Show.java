@@ -16,9 +16,7 @@ public class Show extends Video{
         this.sezoane = sezoane;
     }
 
-    public int getNumberOfSeasons() {
-        return numberOfSeasons;
-    }
+    public int getNumberOfSeasons() {return numberOfSeasons; }
 
     public void setNumberOfSeasons(int numberOfSeasons) {
         this.numberOfSeasons = numberOfSeasons;

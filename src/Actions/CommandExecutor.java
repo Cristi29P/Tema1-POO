@@ -1,5 +1,9 @@
 package Actions;
 
+import database.MovieDatabase;
+import database.ShowDatabase;
+import entertainment.Movie;
+import entertainment.Show;
 import entities.User;
 
 import java.util.ArrayList;
@@ -31,6 +35,71 @@ public class CommandExecutor {
                 } else {
                     user.getHistory().put(title, 1);
                     commandResult = "success -> " + title + " was viewed with total views of " + user.getHistory().get(title);
+                }
+            }
+        }
+    }
+
+    public boolean isMovie(String title, MovieDatabase filme) {
+        for(Movie aux: filme.getMovies()) {
+            if(aux.getTitle().equals(title)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public Movie getMovieHook(String title, MovieDatabase filme) {
+        for(Movie aux: filme.getMovies()) {
+            if(aux.getTitle().equals(title)) {
+                return aux;
+            }
+        }
+        return null;
+    }
+
+    public Show getShowHook(String title, ShowDatabase seriale) {
+        for(Show aux: seriale.getShows()) {
+            if (aux.getTitle().equals(title)) {
+                return aux;
+            }
+        }
+        return null;
+    }
+
+    public void addRatingMovie() {
+
+    }
+
+    public void addRatingShow() {
+
+    }
+
+    public void addRating(String username, String title, ArrayList<User> users, double grade, int seasonNumber,
+                          MovieDatabase filme, ShowDatabase seriale) {
+        for(User user: users) {
+            if(user.getUsername().equals(username)) { // CAUTAM USERUL
+                if(user.getHistory().containsKey(title)) { // ESTE VAZUT CA SA PUTEM DA RATING
+                    if(isMovie(title, filme)) { // ESTE FILM
+                        Movie aux = getMovieHook(title, filme); // PRELUAM FILMUL
+                        if(aux.getUserRated().contains(username)) { // A DAT RATING INAINTE
+                            commandResult = "error -> " + title + " has been already rated";
+                        } else { // NU A DAT RATING INAINTE
+                            aux.getUserRated().add(username);
+                            aux.getRatings().add(grade);
+                            commandResult = "success -> " + title + " was rated with " + grade +" by " + username;
+                        }
+                    } else { // ESTE SERIAL
+                        Show aux = getShowHook(title, seriale);
+                        if(aux.getSezoane().get(seasonNumber - 1).getUserRated().contains(username)) {
+                            commandResult = "error -> " + title + " has been already rated";
+                        } else {
+                            aux.getSezoane().get(seasonNumber - 1).getUserRated().add(username);
+                            aux.getSezoane().get(seasonNumber - 1).getRatings().add(grade);
+                            commandResult = "success -> " + title + " was rated with " + grade +" by " + username;
+                        }
+                    }
+                } else { // NU A FOST VAZUT, NU PUTEM DA RATING
+                    commandResult = "error -> " + title + " is not seen";
                 }
             }
         }

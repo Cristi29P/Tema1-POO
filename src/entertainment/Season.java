@@ -22,6 +22,8 @@ public final class Season {
      */
     private List<Double> ratings;
 
+    private ArrayList<String> userRated = new ArrayList<>();
+
     public Season(final int currentSeason, final int duration) {
         this.currentSeason = currentSeason;
         this.duration = duration;
@@ -42,6 +44,14 @@ public final class Season {
 
     public void setRatings(final List<Double> ratings) {
         this.ratings = ratings;
+    }
+
+    public ArrayList<String> getUserRated() {
+        return userRated;
+    }
+
+    public void setUserRated(ArrayList<String> userRated) {
+        this.userRated = userRated;
     }
 
     @Override

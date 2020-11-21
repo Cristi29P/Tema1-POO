@@ -103,8 +103,15 @@ public final class Main {
                     executorComenzi.addView(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
                 }
+                if(aux.getType().equals("rating")) {
+                    executorComenzi.addRating(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers(),
+                            aux.getGrade(), aux.getSeasonNumber(), filmeBazaDeDate, serialeBazaDeDate);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
+                }
             }
         }
+
+
 
 
 
