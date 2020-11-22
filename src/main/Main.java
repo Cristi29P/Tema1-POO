@@ -115,8 +115,13 @@ public final class Main {
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
                     if (aux.getCriteria().equals("awards")) {
-                        executorQuery.getByAwards(aux.getNumber(), aux.getSortType(), actoriBazaDeDate, aux.getFilters());
+                        executorQuery.getByAwards(aux.getSortType(), actoriBazaDeDate, aux.getFilters());
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
+                    if (aux.getCriteria().equals("filter_description")) {
+                        executorQuery.getByDescription(aux.getSortType(), actoriBazaDeDate, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+
                     }
                 }
 

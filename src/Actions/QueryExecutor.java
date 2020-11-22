@@ -58,6 +58,19 @@ public class QueryExecutor {
         return semafor;
     }
 
+    public boolean hasWords(Actor actor, List<String> words) {
+        boolean semafor = true;
+
+        for (String aux: words) {
+            if (actor.getCareerDescription().toLowerCase().contains(aux.toLowerCase())) {
+                continue;
+            } else {
+                semafor = false;
+                break;
+            }
+        }
+        return semafor;
+    }
     public int numberOfAwards(Actor actor, List<String> awards) {
         int contorAwards = 0;
 
@@ -124,7 +137,7 @@ public class QueryExecutor {
         queryResult += "]";
     }
 
-    public void getByAwards(int number, String sortType, ActorDatabase actori, List<List<String>> filtre) {
+    public void getByAwards(String sortType, ActorDatabase actori, List<List<String>> filtre) {
         ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
         Comparator<Actor> compareByName = Comparator.comparing(Actor::getName);
         Comparator<Actor> compareByAwards = new Comparator<Actor>() {
@@ -154,7 +167,7 @@ public class QueryExecutor {
             queryResult = "Query result: []";
         } else {
             queryResult = "Query result: [";
-            for(int i = 0; i < (Math.min(number, copieActori.size())); i++) {
+            for(int i = 0; i < copieActori.size(); i++) {
                 queryResult = queryResult + copieActori.get(i).getName()  + ", " ;
             }
             queryResult = removeLastChar(queryResult);
@@ -163,9 +176,35 @@ public class QueryExecutor {
         }
     }
 
+    public void getByDescription(String sortType, ActorDatabase actori, List<List<String>> filtre) {
+        ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
+        Comparator<Actor> compareByName = Comparator.comparing(Actor::getName);
 
+        for (Iterator<Actor> it = copieActori.iterator(); it.hasNext(); ) {
+            Actor aux = it.next();
+            if (!hasWords(aux, filtre.get(2))) {
+                it.remove();
+            }
+        }
 
+        if (sortType.equals("asc")) {
+            Collections.sort(copieActori, compareByName);
+        } else {
+            Collections.sort(copieActori, compareByName.reversed());
+        }
 
+        if (copieActori.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for(int i = 0; i < copieActori.size(); i++) {
+                queryResult = queryResult + copieActori.get(i).getName()  + ", " ;
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
 
     public String getQueryResult() {
         return queryResult;
