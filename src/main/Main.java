@@ -125,6 +125,24 @@ public final class Main {
                     }
                 }
 
+                if (aux.getObjectType().equals("movies")) {
+                    if (aux.getCriteria().equals("ratings")) {
+                        executorQuery.getRatedMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
+                                aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
+
+                }
+
+                if (aux.getObjectType().equals("shows")) {
+                    if (aux.getCriteria().equals("ratings")) {
+
+                    }
+
+
+
+                }
+
                 if (aux.getObjectType().equals("users")) {
                     executorQuery.getNumberOfRatings(aux.getNumber(), aux.getSortType(), useriBazaDeDate);
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));

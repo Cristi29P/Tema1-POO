@@ -5,6 +5,7 @@ import database.ActorDatabase;
 import database.MovieDatabase;
 import database.ShowDatabase;
 import database.UserDatabase;
+import entertainment.Movie;
 import entertainment.Video;
 import entities.User;
 
@@ -199,6 +200,57 @@ public class QueryExecutor {
             queryResult = "Query result: [";
             for(int i = 0; i < copieActori.size(); i++) {
                 queryResult = queryResult + copieActori.get(i).getName()  + ", " ;
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
+
+    public void getRatedMovies(int number, String sortType, MovieDatabase filme, List<List<String>> filtre) {
+        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+        Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
+        Comparator<Movie> compareByRating = Comparator.comparingDouble(Movie::doRating);
+
+        // Scot filmele care au rating 0
+        for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+            Movie aux = it.next();
+            if (aux.doRating() == 0) {
+                it.remove();
+            }
+        }
+
+        // Scot filmele care nu corespund anului
+        for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+            Movie aux = it.next();
+            if (aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0))) {
+                it.remove();
+            }
+        }
+
+        // Scot filmele care nu corespund genului
+        for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+            Movie aux = it.next();
+            if (!aux.getGenres().contains(filtre.get(1).get(0))) {
+                it.remove();
+            }
+        }
+
+        if (sortType.equals("asc")) {
+            Collections.sort(copieFilme, compareByTitle);
+            Collections.sort(copieFilme, compareByRating);
+        } else {
+            Collections.sort(copieFilme, compareByTitle.reversed());
+            Collections.sort(copieFilme, compareByRating.reversed());
+        }
+
+
+        if (copieFilme.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
+                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
             }
             queryResult = removeLastChar(queryResult);
             queryResult = removeLastChar(queryResult);
