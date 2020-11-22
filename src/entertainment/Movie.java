@@ -17,6 +17,20 @@ public class Movie extends Video {
         this.movieLength = movieLength;
     }
 
+    @Override
+    public double doRating() {
+        double sum = 0;
+
+        for(int i = 0; i < ratings.size(); i++) {
+            sum += ratings.get(i);
+        }
+        if (ratings.size() != 0) {
+            return sum / ratings.size();
+        } else {
+            return 0;
+        }
+    }
+
     public int getMovieLength() {
         return movieLength;
     }

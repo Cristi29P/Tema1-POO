@@ -110,7 +110,9 @@ public final class Main {
             if (aux.getActionType().equals("query")) {
                 if (aux.getObjectType().equals("actors")) {
                     if (aux.getCriteria().equals("average")) {
-//                        exec
+                        executorQuery.getAverage(aux.getNumber(), aux.getSortType(), actoriBazaDeDate, filmeBazaDeDate,
+                                serialeBazaDeDate);
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
                 }
 

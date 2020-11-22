@@ -16,6 +16,21 @@ public class Show extends Video{
         this.sezoane = sezoane;
     }
 
+    @Override
+    public double doRating() {
+        double sum = 0;
+        for (int i = 0; i < sezoane.size(); i++) {
+            sum += sezoane.get(i).doSeasonRating();
+        }
+
+        if (sezoane.size() != 0) {
+            return sum / sezoane.size();
+        } else {
+            return 0;
+        }
+
+    }
+
     public int getNumberOfSeasons() {return numberOfSeasons; }
 
     public void setNumberOfSeasons(int numberOfSeasons) {

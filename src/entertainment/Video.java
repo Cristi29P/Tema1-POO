@@ -19,6 +19,10 @@ public class Video {
         this.genres = genres;
     }
 
+    public double doRating() {
+        return 0;
+    }
+
     public String getTitle() {
         return title;
     }

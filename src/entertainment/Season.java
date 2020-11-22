@@ -30,6 +30,18 @@ public final class Season {
         this.ratings = new ArrayList<>();
     }
 
+    public double doSeasonRating() {
+        double sum = 0;
+        for (int i = 0; i < ratings.size(); i++) {
+            sum += ratings.get(i);
+        }
+        if (ratings.size() != 0) {
+            return (double) sum / ratings.size();
+        } else {
+            return 0;
+        }
+    }
+
     public int getDuration() {
         return duration;
     }

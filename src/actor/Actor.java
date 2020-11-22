@@ -8,6 +8,7 @@ public class Actor {
     private String careerDescription;
     private ArrayList<String> filmography;
     private Map<ActorsAwards, Integer> awards;
+    private double averageRating;
 
     public Actor() {
 
@@ -18,6 +19,7 @@ public class Actor {
         this.careerDescription = careerDescription;
         this.filmography = filmography;
         this.awards = awards;
+        averageRating = 0;
     }
 
     public String getName() {
@@ -50,5 +52,13 @@ public class Actor {
 
     public void setAwards(Map<ActorsAwards, Integer> awards) {
         this.awards = awards;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 }
