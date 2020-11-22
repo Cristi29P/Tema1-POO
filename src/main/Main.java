@@ -114,6 +114,10 @@ public final class Main {
                                 serialeBazaDeDate);
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
+                    if (aux.getCriteria().equals("awards")) {
+                        executorQuery.getByAwards(aux.getNumber(), aux.getSortType(), actoriBazaDeDate, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
                 }
 
                 if (aux.getObjectType().equals("users")) {
