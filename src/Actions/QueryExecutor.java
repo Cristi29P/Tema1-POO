@@ -1,5 +1,6 @@
 package Actions;
 
+import java.util.regex.*;
 import actor.Actor;
 import database.ActorDatabase;
 import database.MovieDatabase;
@@ -9,6 +10,7 @@ import entertainment.Movie;
 import entertainment.Show;
 import entertainment.Video;
 import entities.User;
+import utils.Utils;
 
 import java.util.*;
 
@@ -49,7 +51,7 @@ public class QueryExecutor {
         boolean semafor = true;
 
         for (String aux: awards) {
-            if (actor.getAwards().containsKey(awards)) {
+            if (actor.getAwards().containsKey(Utils.stringToAwards(aux))) {
                 continue;
             } else {
                 semafor = false;
@@ -63,7 +65,9 @@ public class QueryExecutor {
         boolean semafor = true;
 
         for (String aux: words) {
-            if (actor.getCareerDescription().toLowerCase().contains(aux.toLowerCase())) {
+            Pattern pattern = Pattern.compile(".*\\b"+aux+"\\b.*");
+            Matcher matcher = pattern.matcher(actor.getCareerDescription().toLowerCase());
+            if (matcher.find()) {
                 continue;
             } else {
                 semafor = false;
@@ -76,7 +80,7 @@ public class QueryExecutor {
         int contorAwards = 0;
 
         for (String aux: awards) {
-            contorAwards += actor.getAwards().get(awards);
+            contorAwards += actor.getAwards().get(Utils.stringToAwards(aux));
         }
 
         return contorAwards;
@@ -125,6 +129,14 @@ public class QueryExecutor {
             Collections.sort(copieUsers, compareByName.reversed());
             Collections.sort(copieUsers, compareByRatings.reversed());
         }
+
+       // System.out.println("Marime lista" + copieUsers.size());
+
+//        for (int i = 0 ; i < copieUsers.size(); i++) {
+//            System.out.print(copieUsers.get(i).getUsername() + " ");
+//        }
+
+
         queryResult = "Query result: [";
 
         for(int i = 0; i < (Math.min(number, copieUsers.size())); i++) {
@@ -148,6 +160,8 @@ public class QueryExecutor {
             }
         };
 
+        // PROBLEMA AICI?
+        // DOAR AWARDS -urile din categoria aia le ADUN
         for (Iterator<Actor> it = copieActori.iterator(); it.hasNext(); ) {
             Actor aux = it.next();
             if (!hasAwards(aux, filtre.get(3))) {
@@ -193,6 +207,8 @@ public class QueryExecutor {
         } else {
             Collections.sort(copieActori, compareByName.reversed());
         }
+
+        System.out.println("Marime lista dupa sortare: " + copieActori.size());
 
         if (copieActori.size() == 0) {
             queryResult = "Query result: []";
