@@ -44,6 +44,16 @@ public class Movie extends Video {
         return contor;
     }
 
+    public int numberOfViews(UserDatabase users) {
+        int contor = 0;
+        for (int i = 0; i < users.getUsers().size(); i++) {
+            if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
+                contor += users.getUsers().get(i).getHistory().get(this.getTitle());
+            }
+        }
+        return contor;
+    }
+
     public int getLength() {
         return movieLength;
     }

@@ -141,7 +141,11 @@ public final class Main {
                                 useriBazaDeDate, aux.getFilters());
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
-
+                    if (aux.getCriteria().equals("most_viewed")) {
+                        executorQuery.getViewedMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
+                                useriBazaDeDate, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
                 }
 
                 if (aux.getObjectType().equals("shows")) {
@@ -157,6 +161,11 @@ public final class Main {
                     }
                     if (aux.getCriteria().equals("favorite")) {
                         executorQuery.getFavoriteShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
+                                useriBazaDeDate, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
+                    if (aux.getCriteria().equals("most_viewed")) {
+                        executorQuery.getViewedShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
                                 useriBazaDeDate, aux.getFilters());
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }

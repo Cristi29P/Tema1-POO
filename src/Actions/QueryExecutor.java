@@ -498,6 +498,107 @@ public class QueryExecutor {
         }
     }
 
+    public void getViewedMovies(int number, String sortType, MovieDatabase filme, UserDatabase users,
+                                List<List<String>> filtre) {
+        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+        Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
+        Comparator<Movie> compareByViewNumber = Comparator.comparingInt(o -> o.numberOfViews(users));
+
+        for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+            Movie aux = it.next();
+            if (aux.numberOfViews(users) == 0) {
+                it.remove();
+            }
+        }
+        if (filtre.get(0).get(0) != null) {
+            for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+                Movie aux = it.next();
+                if (aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+        if (filtre.get(1).get(0) != null) {
+            for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+                Movie aux = it.next();
+                if (!aux.getGenres().contains(filtre.get(1).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (sortType.equals("asc")) {
+            Collections.sort(copieFilme, compareByTitle);
+            Collections.sort(copieFilme, compareByViewNumber);
+        } else {
+            Collections.sort(copieFilme, compareByTitle.reversed());
+            Collections.sort(copieFilme, compareByViewNumber.reversed());
+        }
+
+        if (copieFilme.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
+                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
+
+    public void getViewedShows(int number, String sortType, ShowDatabase seriale, UserDatabase users,
+                               List<List<String>> filtre) {
+        ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
+        Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
+        Comparator<Show> compareByViewNumber = Comparator.comparingInt(o -> o.numberOfViews(users));
+
+        for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+            Show aux = it.next();
+            if (aux.numberOfViews(users) == 0) {
+                it.remove();
+            }
+        }
+        if (filtre.get(0).get(0) != null) {
+            for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+                Show aux = it.next();
+                if (aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+        if (filtre.get(1).get(0) != null) {
+            for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+                Show aux = it.next();
+                if (!aux.getGenres().contains(filtre.get(1).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (sortType.equals("asc")) {
+            Collections.sort(copieSeriale, compareByTitle);
+            Collections.sort(copieSeriale, compareByViewNumber);
+        } else {
+            Collections.sort(copieSeriale, compareByTitle.reversed());
+            Collections.sort(copieSeriale, compareByViewNumber.reversed());
+        }
+
+        if (copieSeriale.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for (int i = 0; i < (Math.min(number, copieSeriale.size())); i++) {
+                queryResult = queryResult + copieSeriale.get(i).getTitle() + ", ";
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
+
+
     public String getQueryResult() {
         return queryResult;
     }
