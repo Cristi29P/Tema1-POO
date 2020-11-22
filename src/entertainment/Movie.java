@@ -1,5 +1,8 @@
 package entertainment;
 
+import database.MovieDatabase;
+import database.UserDatabase;
+
 import java.util.ArrayList;
 
 public class Movie extends Video {
@@ -31,7 +34,17 @@ public class Movie extends Video {
         }
     }
 
-    public int getMovieLength() {
+    public int numberOfFavorites(UserDatabase users) {
+        int contor = 0;
+        for (int i = 0; i < users.getUsers().size(); i++) {
+            if (users.getUsers().get(i).getFavoriteMovies().contains(this.getTitle())) {
+                contor++;
+            }
+        }
+        return contor;
+    }
+
+    public int getLength() {
         return movieLength;
     }
 

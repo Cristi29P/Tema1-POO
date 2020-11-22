@@ -30,6 +30,15 @@ public class Show extends Video{
         }
     }
 
+
+    public int getLength() {
+        int sum = 0;
+        for (int i = 0; i < sezoane.size(); i++) {
+            sum += sezoane.get(i).getDuration();
+        }
+        return sum;
+    }
+
     public int getNumberOfSeasons() {return numberOfSeasons; }
 
     public void setNumberOfSeasons(int numberOfSeasons) {

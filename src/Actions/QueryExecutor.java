@@ -309,6 +309,145 @@ public class QueryExecutor {
         }
     }
 
+    public void getLongestMovies(int number, String sortType, MovieDatabase filme, List<List<String>> filtre) {
+        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+        Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
+        Comparator<Movie> compareByDuration = Comparator.comparingInt(Movie::getLength);
+
+        if (filtre.get(0).get(0) != null) {
+            for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+                Movie aux = it.next();
+                if (aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (filtre.get(1).get(0) != null) {
+            for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+                Movie aux = it.next();
+                if (!aux.getGenres().contains(filtre.get(1).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (sortType.equals("asc")) {
+            Collections.sort(copieFilme, compareByTitle);
+            Collections.sort(copieFilme, compareByDuration);
+        } else {
+            Collections.sort(copieFilme, compareByTitle.reversed());
+            Collections.sort(copieFilme, compareByDuration.reversed());
+        }
+
+        if (copieFilme.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
+                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
+
+    public void getLongestShows(int number, String sortType, ShowDatabase seriale, List<List<String>> filtre) {
+        ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
+        Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
+        Comparator<Show> compareByDuration = Comparator.comparingInt(Show::getLength);
+
+        if (filtre.get(0).get(0) != null) {
+            for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+                Show aux = it.next();
+                if (aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (filtre.get(1).get(0) != null) {
+            for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+                Show aux = it.next();
+                if (!aux.getGenres().contains(filtre.get(1).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (sortType.equals("asc")) {
+            Collections.sort(copieSeriale, compareByTitle);
+            Collections.sort(copieSeriale, compareByDuration);
+        } else {
+            Collections.sort(copieSeriale, compareByTitle.reversed());
+            Collections.sort(copieSeriale, compareByDuration.reversed());
+        }
+
+        if (copieSeriale.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for (int i = 0; i < (Math.min(number, copieSeriale.size())); i++) {
+                queryResult = queryResult + copieSeriale.get(i).getTitle() + ", ";
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
+
+    public void getFavoriteMovies(int number, String sortType, MovieDatabase filme, UserDatabase users,
+                                  List<List<String>> filtre) {
+        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+        Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
+        Comparator<Movie> compareByFavoriteNumber = Comparator.comparingInt(o -> o.numberOfFavorites(users));
+
+        for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+            Movie aux = it.next();
+            if (aux.numberOfFavorites(users) == 0) {
+                it.remove();
+            }
+        }
+        if (filtre.get(0).get(0) != null) {
+            for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+                Movie aux = it.next();
+                if (aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+        if (filtre.get(1).get(0) != null) {
+            for (Iterator<Movie> it = copieFilme.iterator(); it.hasNext(); ) {
+                Movie aux = it.next();
+                if (!aux.getGenres().contains(filtre.get(1).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (sortType.equals("asc")) {
+            Collections.sort(copieFilme, compareByTitle);
+            Collections.sort(copieFilme, compareByFavoriteNumber);
+        } else {
+            Collections.sort(copieFilme, compareByTitle.reversed());
+            Collections.sort(copieFilme, compareByFavoriteNumber.reversed());
+        }
+
+
+        if (copieFilme.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
+                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
+
     public String getQueryResult() {
         return queryResult;
     }

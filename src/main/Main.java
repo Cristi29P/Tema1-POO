@@ -131,6 +131,16 @@ public final class Main {
                                 aux.getFilters());
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
+                    if (aux.getCriteria().equals("longest")) {
+                        executorQuery.getLongestMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
+                                aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
+                    if (aux.getCriteria().equals("favorite")) {
+                        executorQuery.getFavoriteMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
+                                useriBazaDeDate, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
 
                 }
 
@@ -140,7 +150,14 @@ public final class Main {
                                 aux.getFilters());
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
+                    if (aux.getCriteria().equals("longest")) {
+                        executorQuery.getLongestShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
+                                aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    }
+                    if (aux.getCriteria().equals("favorite")) {
 
+                    }
 
 
                 }
