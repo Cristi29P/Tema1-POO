@@ -6,6 +6,7 @@ import database.MovieDatabase;
 import database.ShowDatabase;
 import database.UserDatabase;
 import entertainment.Movie;
+import entertainment.Show;
 import entertainment.Video;
 import entities.User;
 
@@ -19,7 +20,6 @@ public class QueryExecutor {
                 ? null
                 : (s.substring(0, s.length() - 1));
     }
-
 
     public static void doActorAverage(Actor actor, MovieDatabase filme, ShowDatabase seriale) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
@@ -251,6 +251,57 @@ public class QueryExecutor {
             queryResult = "Query result: [";
             for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
                 queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
+            }
+            queryResult = removeLastChar(queryResult);
+            queryResult = removeLastChar(queryResult);
+            queryResult += "]";
+        }
+    }
+
+    public void getRatedShows(int number, String sortType, ShowDatabase seriale, List<List<String>> filtre) {
+        ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
+        Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
+        Comparator<Show> compareByRating = Comparator.comparingDouble(Show::doRating);
+
+        for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+            Show aux = it.next();
+            if (aux.doRating() == 0) {
+                it.remove();
+            }
+        }
+
+        if (filtre.get(0).get(0) != null) {
+            for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+                Show aux = it.next();
+                if (aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (filtre.get(1).get(0) != null) {
+            for (Iterator<Show> it = copieSeriale.iterator(); it.hasNext(); ) {
+                Show aux = it.next();
+                if (!aux.getGenres().contains(filtre.get(1).get(0))) {
+                    it.remove();
+                }
+            }
+        }
+
+        if (sortType.equals("asc")) {
+            Collections.sort(copieSeriale, compareByTitle);
+            Collections.sort(copieSeriale, compareByRating);
+        } else {
+            Collections.sort(copieSeriale, compareByTitle.reversed());
+            Collections.sort(copieSeriale, compareByRating.reversed());
+        }
+
+        if (copieSeriale.size() == 0) {
+            queryResult = "Query result: []";
+        } else {
+            queryResult = "Query result: [";
+            for (int i = 0; i < (Math.min(number, copieSeriale.size())); i++) {
+                queryResult = queryResult + copieSeriale.get(i).getTitle() + ", ";
             }
             queryResult = removeLastChar(queryResult);
             queryResult = removeLastChar(queryResult);

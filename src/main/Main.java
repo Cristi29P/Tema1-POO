@@ -136,7 +136,9 @@ public final class Main {
 
                 if (aux.getObjectType().equals("shows")) {
                     if (aux.getCriteria().equals("ratings")) {
-
+                        executorQuery.getRatedShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
+                                aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
 
 
