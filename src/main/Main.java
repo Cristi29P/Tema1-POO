@@ -156,10 +156,10 @@ public final class Main {
                         arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
                     if (aux.getCriteria().equals("favorite")) {
-
+                        executorQuery.getFavoriteShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
+                                useriBazaDeDate, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
                     }
-
-
                 }
 
                 if (aux.getObjectType().equals("users")) {
