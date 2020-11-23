@@ -2,7 +2,7 @@ package main;
 
 import Actions.CommandExecutor;
 import Actions.QueryExecutor;
-import Actions.ReccomendationExecutor;
+import Actions.RecommendationExecutor;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
@@ -87,7 +87,7 @@ public final class Main {
 
         CommandExecutor executorComenzi = new CommandExecutor();
         QueryExecutor executorQuery = new QueryExecutor();
-        ReccomendationExecutor executorRecomandari = new ReccomendationExecutor();
+        RecommendationExecutor executorRecomandari = new RecommendationExecutor();
 
         List<ActionInputData> actiuni = input.getCommands();
 
@@ -174,6 +174,17 @@ public final class Main {
                 if (aux.getObjectType().equals("users")) {
                     executorQuery.getNumberOfRatings(aux.getNumber(), aux.getSortType(), useriBazaDeDate);
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                }
+            }
+            if (aux.getActionType().equals("recommendation")) {
+                if (aux.getType().equals("standard")) {
+                    executorRecomandari.stdRecomm(aux.getUsername(), filmeBazaDeDate, serialeBazaDeDate, useriBazaDeDate);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
+                }
+                if (aux.getType().equals("best_unseen")) {
+                    executorRecomandari.bestUnseenRecomm(aux.getUsername(), filmeBazaDeDate, serialeBazaDeDate,
+                            useriBazaDeDate);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
                 }
             }
         }
