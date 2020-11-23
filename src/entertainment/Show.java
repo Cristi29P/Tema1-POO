@@ -32,6 +32,7 @@ public class Show extends Video{
         }
     }
 
+    @Override
     public int numberOfFavorites(UserDatabase users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {

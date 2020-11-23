@@ -1,5 +1,7 @@
 package entertainment;
 
+import database.UserDatabase;
+
 import java.util.ArrayList;
 
 public class Video {
@@ -17,6 +19,10 @@ public class Video {
         this.launchYear = launchYear;
         this.cast = cast;
         this.genres = genres;
+    }
+
+    public int numberOfFavorites(UserDatabase users) {
+        return 0;
     }
 
     public double doRating() {

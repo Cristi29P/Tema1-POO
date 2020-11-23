@@ -2,6 +2,7 @@ package Actions;
 
 import java.util.regex.*;
 import actor.Actor;
+import actor.ActorsAwards;
 import database.ActorDatabase;
 import database.MovieDatabase;
 import database.ShowDatabase;
@@ -84,8 +85,12 @@ public class QueryExecutor {
     public int numberOfAwards(Actor actor, List<String> awards) {
         int contorAwards = 0;
 
-        for (String aux: awards) {
-            contorAwards += actor.getAwards().get(Utils.stringToAwards(aux));
+//        for (String aux: awards) {
+//            contorAwards += actor.getAwards().get(Utils.stringToAwards(aux));
+//        }
+
+        for (Map.Entry<ActorsAwards, Integer> entry: actor.getAwards().entrySet()) {
+            contorAwards += entry.getValue();
         }
 
         return contorAwards;
@@ -165,8 +170,6 @@ public class QueryExecutor {
             }
         };
 
-        // PROBLEMA AICI?
-        // DOAR AWARDS -urile din categoria aia le ADUN
         for (Iterator<Actor> it = copieActori.iterator(); it.hasNext(); ) {
             Actor aux = it.next();
             if (!hasAwards(aux, filtre.get(3))) {
@@ -181,7 +184,6 @@ public class QueryExecutor {
             Collections.sort(copieActori, compareByName.reversed());
             Collections.sort(copieActori, compareByAwards.reversed());
         }
-
 
         if (copieActori.size() == 0) {
             queryResult = "Query result: []";

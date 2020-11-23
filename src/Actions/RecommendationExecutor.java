@@ -10,6 +10,7 @@ import entities.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 public class RecommendationExecutor {
     private String recommendResult;
@@ -99,12 +100,60 @@ public class RecommendationExecutor {
             for (Video aux: videos) {
                 videoTitles.add(aux.getTitle());
             }
-
-            recommendResult = "SearchRecommendation result: " + videoTitles.toString();
-
+            if (videoTitles.size() != 0) {
+                recommendResult = "SearchRecommendation result: " + videoTitles.toString();
+            } else {
+                recommendResult = "SearchRecommendation cannot be applied!";
+            }
 
         } else {
             recommendResult = "SearchRecommendation cannot be applied!";
+        }
+    }
+
+//    public void popularRecomm() {
+//
+//    }
+
+    public void favoriteRecomm(String username,  MovieDatabase filme, ShowDatabase seriale, UserDatabase users) {
+        ArrayList<Video> videoclipuri = new ArrayList<>();
+        videoclipuri.addAll(filme.getMovies());
+        videoclipuri.addAll(seriale.getShows());
+        User auxUser = null;
+        int favoriteNumber = -1;
+        String favoriteTitle;
+
+        for (User aux: users.getUsers()) {
+            if (aux.getUsername().equals(username)) {
+                auxUser = aux;
+            }
+        }
+
+        if (auxUser.getSubscriptionType().equals("PREMIUM")) {
+            // Scoatem toate video-urile vazute
+            for (Iterator<Video> it = videoclipuri.iterator(); it.hasNext();) {
+                Video aux = it.next();
+                if (auxUser.getHistory().containsKey(aux.getTitle())) {
+                    it.remove();
+                }
+            }
+
+            for (Video aux: videoclipuri) {
+                if (aux.numberOfFavorites(users) > favoriteNumber) {
+                    favoriteNumber = aux.numberOfFavorites(users);
+                }
+            }
+
+            recommendResult = "FavoriteRecommendation cannot be applied!";
+            for (Video aux: videoclipuri) {
+                if (aux.numberOfFavorites(users) == favoriteNumber) {
+                    favoriteTitle = aux.getTitle();
+                    recommendResult = "FavoriteRecommendation result: " + favoriteTitle;
+                    break;
+                }
+            }
+        } else {
+            recommendResult = "FavoriteRecommendation cannot be applied!";
         }
     }
 
