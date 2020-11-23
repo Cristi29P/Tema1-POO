@@ -186,6 +186,11 @@ public final class Main {
                             useriBazaDeDate);
                     arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
                 }
+                if (aux.getType().equals("search")) {
+                    executorRecomandari.searchRecomm(aux.getUsername(), aux.getGenre(), filmeBazaDeDate,
+                            serialeBazaDeDate, useriBazaDeDate);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
+                }
             }
         }
         fileWriter.closeJSON(arrayResult);

@@ -3,10 +3,13 @@ package Actions;
 import database.MovieDatabase;
 import database.ShowDatabase;
 import database.UserDatabase;
+import entertainment.Movie;
 import entertainment.Video;
 import entities.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class RecommendationExecutor {
     private String recommendResult;
@@ -61,7 +64,48 @@ public class RecommendationExecutor {
                 break;
             }
         }
+    }
 
+    public void searchRecomm(String username, String genre, MovieDatabase filme, ShowDatabase seriale,
+                             UserDatabase users) {
+        ArrayList<Video> videoclipuri = new ArrayList<>();
+        ArrayList<Video> videos = new ArrayList<>();
+        videoclipuri.addAll(filme.getMovies());
+        videoclipuri.addAll(seriale.getShows());
+        User auxUser = null;
+
+        for (User aux: users.getUsers()) {
+            if (aux.getUsername().equals(username)) {
+                auxUser = aux;
+            }
+        }
+
+        // Check if user has premium subscription
+        if (auxUser.getSubscriptionType().equals("PREMIUM")) {
+            for (Video aux: videoclipuri) {
+                if ((!auxUser.getHistory().containsKey(aux.getTitle())) && (aux.getGenres().contains(genre))) {
+                    videos.add(aux);
+                }
+            }
+
+            Comparator<Video> compareByTitle = Comparator.comparing(Video::getTitle);
+            Comparator<Video> compareByRating = Comparator.comparingDouble(Video::doRating);
+
+            Collections.sort(videos, compareByTitle);
+            Collections.sort(videos, compareByRating);
+
+            ArrayList<String> videoTitles = new ArrayList<>();
+
+            for (Video aux: videos) {
+                videoTitles.add(aux.getTitle());
+            }
+
+            recommendResult = "SearchRecommendation result: " + videoTitles.toString();
+
+
+        } else {
+            recommendResult = "SearchRecommendation cannot be applied!";
+        }
     }
 
     public String getRecommendResult() {
