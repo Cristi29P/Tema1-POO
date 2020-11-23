@@ -36,7 +36,7 @@ public final class Season {
             sum += ratings.get(i);
         }
         if (ratings.size() != 0) {
-            return (double) sum / ratings.size();
+            return sum / ratings.size();
         } else {
             return 0;
         }

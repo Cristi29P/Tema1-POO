@@ -43,8 +43,13 @@ public class QueryExecutor {
             }
         }
 
-        sum /= contor;
-        actor.setAverageRating(sum);
+        if (contor == 0) {
+            actor.setAverageRating(0);
+        } else {
+            sum /= contor;
+            actor.setAverageRating(sum);
+        }
+
     }
 
     public boolean hasAwards(Actor actor, List<String> awards) {
@@ -93,6 +98,10 @@ public class QueryExecutor {
             doActorAverage(auxActor, filme, seriale);
         }
 
+        copieActori.removeIf(actor -> actor.getAverageRating() == 0);
+
+
+
         Comparator<Actor> compareByRatings = Comparator.comparingDouble(Actor::getAverageRating);
         Comparator<Actor> compareByName = Comparator.comparing(Actor::getName);
 
@@ -122,6 +131,9 @@ public class QueryExecutor {
         ArrayList<User> copieUsers = new ArrayList<>(users.getUsers());
         Comparator<User> compareByRatings = Comparator.comparingInt(User::getNumarDeRatinguriDate);
         Comparator<User> compareByName = Comparator.comparing(User::getUsername);
+
+        copieUsers.removeIf(user -> user.getNumarDeRatinguriDate() == 0);
+
         if (sortType.equals("asc")) {
             Collections.sort(copieUsers, compareByName);
             Collections.sort(copieUsers, compareByRatings);
@@ -129,13 +141,6 @@ public class QueryExecutor {
             Collections.sort(copieUsers, compareByName.reversed());
             Collections.sort(copieUsers, compareByRatings.reversed());
         }
-
-       // System.out.println("Marime lista" + copieUsers.size());
-
-//        for (int i = 0 ; i < copieUsers.size(); i++) {
-//            System.out.print(copieUsers.get(i).getUsername() + " ");
-//        }
-
 
         queryResult = "Query result: [";
 
@@ -208,7 +213,7 @@ public class QueryExecutor {
             Collections.sort(copieActori, compareByName.reversed());
         }
 
-        System.out.println("Marime lista dupa sortare: " + copieActori.size());
+
 
         if (copieActori.size() == 0) {
             queryResult = "Query result: []";
