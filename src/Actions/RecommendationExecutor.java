@@ -3,14 +3,13 @@ package Actions;
 import database.MovieDatabase;
 import database.ShowDatabase;
 import database.UserDatabase;
-import entertainment.Movie;
 import entertainment.Video;
 import entities.User;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
+import java.util.stream.Collectors;
+import entertainment.PopularGenres;
+
 
 public class RecommendationExecutor {
     private String recommendResult;
@@ -49,11 +48,16 @@ public class RecommendationExecutor {
             }
         }
 
+        for (Iterator<Video> it = videoclipuri.iterator(); it.hasNext();) {
+            Video aux = it.next();
+            if (auxUser.getHistory().containsKey(aux.getTitle())) {
+                it.remove();
+            }
+        }
+
         for (Video aux: videoclipuri) {
-            if (!auxUser.getHistory().containsKey(aux.getTitle())) {
-                if (aux.doRating() > bestRating) {
-                    bestRating = aux.doRating();
-                }
+            if (Double.compare(aux.doRating(), bestRating) == 1) {
+                bestRating = aux.doRating();
             }
         }
 
@@ -111,9 +115,82 @@ public class RecommendationExecutor {
         }
     }
 
-//    public void popularRecomm() {
-//
-//    }
+
+    // Nr de vizualizari ale unui video
+    public int numberOfViews(Video video, ArrayList<User> users) {
+        int numberOfViews = 0;
+            for (User user: users) {
+                if (user.getHistory().containsKey(video.getTitle())) {
+                    numberOfViews += user.getHistory().get(video.getTitle());
+                }
+            }
+        return numberOfViews;
+    }
+
+    public void popularRecomm(String username, MovieDatabase filme, ShowDatabase seriale, UserDatabase users) {
+        ArrayList<Video> videoclipuri = new ArrayList<>();
+        videoclipuri.addAll(filme.getMovies());
+        videoclipuri.addAll(seriale.getShows());
+        User auxUser = null;
+
+        for (User aux: users.getUsers()) {
+            if (aux.getUsername().equals(username)) {
+                auxUser = aux;
+            }
+        }
+
+        Map<String, Integer> popularitateGenuri = new HashMap<>();
+
+        // Obtinem harta de genuri vizionate
+        for (Video video: videoclipuri) {
+            for (String gen: video.getGenres()) {
+                if (!popularitateGenuri.containsKey(gen)) {
+                    popularitateGenuri.put(gen, numberOfViews(video, users.getUsers()));
+                } else {
+                    popularitateGenuri.replace(gen, popularitateGenuri.get(gen) + numberOfViews(video, users.getUsers()));
+                }
+            }
+        }
+
+        ArrayList<PopularGenres> genuriPopulare = new ArrayList<>();
+
+        for(Map.Entry<String, Integer> entry : popularitateGenuri.entrySet()) {
+            genuriPopulare.add(new PopularGenres(entry.getKey(), entry.getValue()));
+        }
+
+        Comparator<PopularGenres> compareByPopularity = Comparator.comparingInt(PopularGenres::getPopularity);
+        Collections.sort(genuriPopulare, compareByPopularity.reversed());
+
+        if (auxUser.getSubscriptionType().equals("PREMIUM")) {
+            recommendResult = "PopularRecommendation cannot be applied!";
+
+            // Scoatem toate video-urile vizionate
+            for (Iterator<Video> it = videoclipuri.iterator(); it.hasNext();) {
+                Video aux = it.next();
+                if (auxUser.getHistory().containsKey(aux.getTitle())) {
+                    it.remove();
+                }
+            }
+
+            boolean semafor = false;
+
+            for (PopularGenres gen: genuriPopulare) {
+                for (Video video: videoclipuri) {
+                    if (video.getGenres().contains(gen.getGenre())) {
+                        recommendResult = "PopularRecommendation result: " + video.getTitle();
+                        semafor = true;
+                        break;
+                    }
+                }
+                if (semafor) {
+                    break;
+                }
+            }
+
+        } else {
+            recommendResult = "PopularRecommendation cannot be applied!";
+        }
+    }
 
     public void favoriteRecomm(String username,  MovieDatabase filme, ShowDatabase seriale, UserDatabase users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
