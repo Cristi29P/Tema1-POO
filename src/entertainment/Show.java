@@ -4,7 +4,7 @@ import database.UserDB;
 
 import java.util.ArrayList;
 
-public final class Show extends Video{
+public final class Show extends Video {
     private int numberOfSeasons;
     private ArrayList<Season> sezoane;
 
@@ -13,7 +13,8 @@ public final class Show extends Video{
     }
 
     public Show(final String title, final int launchYear, final ArrayList<String> cast,
-                final ArrayList<String> genres, final int numberOfSeasons, final ArrayList<Season> sezoane) {
+                final ArrayList<String> genres, final int numberOfSeasons,
+                final ArrayList<Season> sezoane) {
         super(title, launchYear, cast, genres);
         this.numberOfSeasons = numberOfSeasons;
         this.sezoane = sezoane;
@@ -34,17 +35,17 @@ public final class Show extends Video{
     }
 
     @Override
-    public int numberOfFavorites(final UserDB users) {
+    public int nrOfFavs(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
-            if (users.getUsers().get(i).getFavoriteMovies().contains(this.getTitle())) {
+            if (users.getUsers().get(i).getFavMovies().contains(this.getTitle())) {
                 contor++;
             }
         }
         return contor;
     }
 
-    public int numberOfViews(final UserDB users) {
+    public int nrOfViews(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {

@@ -1,10 +1,10 @@
 package entertainment;
 
-public final class PopularGenres {
+public final class TopGenres {
     private String genre;
     private int popularity;
 
-    public PopularGenres(final String genre, final int popularity) {
+    public TopGenres(final String genre, final int popularity) {
         this.genre = genre;
         this.popularity = popularity;
     }
@@ -23,13 +23,5 @@ public final class PopularGenres {
 
     public void setPopularity(final int popularity) {
         this.popularity = popularity;
-    }
-
-    @Override
-    public String toString() {
-        return "PopularGenres{" +
-                "genre='" + genre + '\'' +
-                ", popularity=" + popularity +
-                '}';
     }
 }

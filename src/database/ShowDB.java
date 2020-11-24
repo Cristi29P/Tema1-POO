@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public final class ShowDB {
     private ArrayList<Show> shows;
 
-    public ShowDB(ArrayList<Show> shows) {
+    public ShowDB(final ArrayList<Show> shows) {
         this.shows = shows;
     }
 
@@ -15,7 +15,7 @@ public final class ShowDB {
         return shows;
     }
 
-    public void setShows(ArrayList<Show> shows) {
+    public void setShows(final ArrayList<Show> shows) {
         this.shows = shows;
     }
 

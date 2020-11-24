@@ -80,130 +80,143 @@ public final class Main {
         Writer fileWriter = new Writer(filePath2);
         JSONArray arrayResult = new JSONArray();
 
-        //TODO add here the entry point to your implementation
-
         CreatorDB creatorBazaDeDate = new CreatorDB(input);
+        ActorDB actoriDB = creatorBazaDeDate.generateActorDB();
+        UserDB useriDB = creatorBazaDeDate.generateUserDB();
+        MovieDB filmeDB = creatorBazaDeDate.generateMovieDB();
+        ShowDB serialeDB = creatorBazaDeDate.generateShowDB();
 
-        ActorDB actoriBazaDeDate = creatorBazaDeDate.generateActorDatabase();
-        UserDB useriBazaDeDate = creatorBazaDeDate.generateUserDatabase();
-        MovieDB filmeBazaDeDate = creatorBazaDeDate.generateMovieDatabase();
-        ShowDB serialeBazaDeDate = creatorBazaDeDate.generateShowDatabase();
-
-        CommandExec executorComenzi = new CommandExec();
-        QueryExec executorQuery = new QueryExec();
-        RecommExec executorRecomandari = new RecommExec();
+        CommandExec execComm = new CommandExec();
+        QueryExec execQuery = new QueryExec();
+        RecommExec execRecomm = new RecommExec();
 
         List<ActionInputData> actiuni = input.getCommands();
 
         for (ActionInputData aux: actiuni) {
             if (aux.getActionType().equals("command")) {
                 if (aux.getType().equals("favorite")) {
-                    executorComenzi.addFavorite(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
+                    execComm.addFavorites(aux.getUsername(), aux.getTitle(), useriDB.getUsers());
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execComm.getResult()));
                 }
                 if (aux.getType().equals("view")) {
-                    executorComenzi.addView(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
+                    execComm.addView(aux.getUsername(), aux.getTitle(), useriDB.getUsers());
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execComm.getResult()));
                 }
                 if (aux.getType().equals("rating")) {
-                    executorComenzi.addRating(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers(),
-                            aux.getGrade(), aux.getSeasonNumber(), filmeBazaDeDate, serialeBazaDeDate);
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorComenzi.getCommandResult()));
+                    execComm.addRating(aux.getUsername(), aux.getTitle(), useriDB.getUsers(),
+                            aux.getGrade(), aux.getSeasonNumber(), filmeDB, serialeDB);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execComm.getResult()));
                 }
             }
             if (aux.getActionType().equals("query")) {
                 if (aux.getObjectType().equals("actors")) {
                     if (aux.getCriteria().equals("average")) {
-                        executorQuery.getAverage(aux.getNumber(), aux.getSortType(), actoriBazaDeDate, filmeBazaDeDate,
-                                serialeBazaDeDate);
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        execQuery.getAverage(aux.getNumber(), aux.getSortType(), actoriDB, filmeDB,
+                                serialeDB);
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("awards")) {
-                        executorQuery.getByAwards(aux.getSortType(), actoriBazaDeDate, aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        execQuery.getByAwards(aux.getSortType(), actoriDB, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("filter_description")) {
-                        executorQuery.getByDescription(aux.getSortType(), actoriBazaDeDate, aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
-
+                        execQuery.getByDescription(aux.getSortType(), actoriDB, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                 }
-
                 if (aux.getObjectType().equals("movies")) {
                     if (aux.getCriteria().equals("ratings")) {
-                        executorQuery.getRatedMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
+                        execQuery.getRatedMovies(aux.getNumber(), aux.getSortType(), filmeDB,
                                 aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("longest")) {
-                        executorQuery.getLongestMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
+                        execQuery.getLongestMovies(aux.getNumber(), aux.getSortType(), filmeDB,
                                 aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("favorite")) {
-                        executorQuery.getFavoriteMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
-                                useriBazaDeDate, aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        execQuery.getFavoriteMovies(aux.getNumber(), aux.getSortType(), filmeDB,
+                                useriDB, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("most_viewed")) {
-                        executorQuery.getViewedMovies(aux.getNumber(), aux.getSortType(), filmeBazaDeDate,
-                                useriBazaDeDate, aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        execQuery.getViewedMovies(aux.getNumber(), aux.getSortType(), filmeDB,
+                                useriDB, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                 }
-
                 if (aux.getObjectType().equals("shows")) {
                     if (aux.getCriteria().equals("ratings")) {
-                        executorQuery.getRatedShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
+                        execQuery.getRatedShows(aux.getNumber(), aux.getSortType(), serialeDB,
                                 aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("longest")) {
-                        executorQuery.getLongestShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
+                        execQuery.getLongestShows(aux.getNumber(), aux.getSortType(), serialeDB,
                                 aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("favorite")) {
-                        executorQuery.getFavoriteShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
-                                useriBazaDeDate, aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        execQuery.getFavoriteShows(aux.getNumber(), aux.getSortType(), serialeDB,
+                                useriDB, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                     if (aux.getCriteria().equals("most_viewed")) {
-                        executorQuery.getViewedShows(aux.getNumber(), aux.getSortType(), serialeBazaDeDate,
-                                useriBazaDeDate, aux.getFilters());
-                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                        execQuery.getViewedShows(aux.getNumber(), aux.getSortType(), serialeDB,
+                                useriDB, aux.getFilters());
+                        arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                                execQuery.getResult()));
                     }
                 }
-
                 if (aux.getObjectType().equals("users")) {
-                    executorQuery.getNumberOfRatings(aux.getNumber(), aux.getSortType(), useriBazaDeDate);
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorQuery.getQueryResult()));
+                    execQuery.getNumberOfRatings(aux.getNumber(), aux.getSortType(), useriDB);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execQuery.getResult()));
                 }
             }
             if (aux.getActionType().equals("recommendation")) {
                 if (aux.getType().equals("standard")) {
-                    executorRecomandari.stdRecomm(aux.getUsername(), filmeBazaDeDate, serialeBazaDeDate, useriBazaDeDate);
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
+                    execRecomm.stdRecomm(aux.getUsername(), filmeDB, serialeDB, useriDB);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execRecomm.getResult()));
                 }
                 if (aux.getType().equals("best_unseen")) {
-                    executorRecomandari.bestUnseenRecomm(aux.getUsername(), filmeBazaDeDate, serialeBazaDeDate,
-                            useriBazaDeDate);
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
+                    execRecomm.bestUnseenRecomm(aux.getUsername(), filmeDB, serialeDB,
+                            useriDB);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execRecomm.getResult()));
                 }
                 if (aux.getType().equals("search")) {
-                    executorRecomandari.searchRecomm(aux.getUsername(), aux.getGenre(), filmeBazaDeDate,
-                            serialeBazaDeDate, useriBazaDeDate);
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
+                    execRecomm.searchRecomm(aux.getUsername(), aux.getGenre(), filmeDB,
+                            serialeDB, useriDB);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execRecomm.getResult()));
                 }
                 if (aux.getType().equals("favorite")) {
-                    executorRecomandari.favoriteRecomm(aux.getUsername(), filmeBazaDeDate, serialeBazaDeDate,
-                            useriBazaDeDate);
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
+                    execRecomm.favRecomm(aux.getUsername(), filmeDB, serialeDB,
+                            useriDB);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execRecomm.getResult()));
                 }
                 if (aux.getType().equals("popular")) {
-                    executorRecomandari.popularRecomm(aux.getUsername(), filmeBazaDeDate, serialeBazaDeDate,
-                            useriBazaDeDate);
-                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "", executorRecomandari.getRecommendResult()));
+                    execRecomm.popularRecomm(aux.getUsername(), filmeDB, serialeDB,
+                            useriDB);
+                    arrayResult.add(fileWriter.writeFile(aux.getActionId(), "",
+                            execRecomm.getResult()));
                 }
             }
         }

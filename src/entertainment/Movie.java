@@ -24,7 +24,7 @@ public final class Movie extends Video {
     public double doRating() {
         double sum = 0;
 
-        for(int i = 0; i < ratings.size(); i++) {
+        for (int i = 0; i < ratings.size(); i++) {
             sum += ratings.get(i);
         }
         if (ratings.size() != 0) {
@@ -35,17 +35,17 @@ public final class Movie extends Video {
     }
 
     @Override
-    public int numberOfFavorites(final UserDB users) {
+    public int nrOfFavs(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
-            if (users.getUsers().get(i).getFavoriteMovies().contains(this.getTitle())) {
+            if (users.getUsers().get(i).getFavMovies().contains(this.getTitle())) {
                 contor++;
             }
         }
         return contor;
     }
 
-    public int numberOfViews(final UserDB users) {
+    public int nrOfViews(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {

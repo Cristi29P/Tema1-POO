@@ -4,19 +4,24 @@ import actor.Actor;
 import entertainment.Movie;
 import entertainment.Show;
 import entities.User;
-import fileio.*;
+import fileio.ActorInputData;
+import fileio.Input;
+import fileio.MovieInputData;
+import fileio.SerialInputData;
+import fileio.UserInputData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public final class CreatorDB {
     private final Input input;
 
-    public CreatorDB(Input input) {
+    public CreatorDB(final Input input) {
         this.input = input;
     }
 
 
-    public ActorDB generateActorDatabase() {
+    public ActorDB generateActorDB() {
 
 
         List<ActorInputData> actorsInput = input.getActors();
@@ -25,7 +30,7 @@ public final class CreatorDB {
         for (ActorInputData aux: actorsInput) {
             Actor actorAuxiliar = new Actor();
             actorAuxiliar.setName(aux.getName());
-            actorAuxiliar.setCareerDescription((aux.getCareerDescription()));
+            actorAuxiliar.setDescription((aux.getCareerDescription()));
             actorAuxiliar.setFilmography(aux.getFilmography());
             actorAuxiliar.setAwards(aux.getAwards());
             actors.add(actorAuxiliar);
@@ -33,7 +38,7 @@ public final class CreatorDB {
         return new ActorDB(actors);
     }
 
-    public UserDB generateUserDatabase() {
+    public UserDB generateUserDB() {
 
 
         List<UserInputData> usersInput = input.getUsers();
@@ -44,14 +49,14 @@ public final class CreatorDB {
             userAuxiliar.setUsername(aux.getUsername());
             userAuxiliar.setSubscriptionType(aux.getSubscriptionType());
             userAuxiliar.setHistory(aux.getHistory());
-            userAuxiliar.setFavoriteMovies(aux.getFavoriteMovies());
+            userAuxiliar.setFavMovies(aux.getFavoriteMovies());
             users.add(userAuxiliar);
         }
 
         return new UserDB(users);
      }
 
-    public MovieDB generateMovieDatabase() {
+    public MovieDB generateMovieDB() {
 
 
         List<MovieInputData> moviesInput = input.getMovies();
@@ -72,7 +77,7 @@ public final class CreatorDB {
 
 
 
-    public ShowDB generateShowDatabase() {
+    public ShowDB generateShowDB() {
 
 
         List<SerialInputData> showsInput = input.getSerials();

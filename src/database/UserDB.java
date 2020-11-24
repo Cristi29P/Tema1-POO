@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public final class UserDB {
     private ArrayList<User> users;
 
-    public UserDB(ArrayList<User> users) {
+    public UserDB(final ArrayList<User> users) {
         this.users = users;
     }
 

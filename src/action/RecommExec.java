@@ -5,16 +5,19 @@ import database.ShowDB;
 import database.UserDB;
 import entertainment.Video;
 import entities.User;
-
-import java.util.*;
-
-import entertainment.PopularGenres;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import entertainment.TopGenres;
 
 
 public final class RecommExec {
     private String recommendResult;
 
-    public void stdRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
+    public void stdRecomm(final String username, final MovieDB filme, final ShowDB seriale,
+                          final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());
@@ -27,6 +30,7 @@ public final class RecommExec {
         }
         recommendResult = "StandardRecommendation cannot be applied!";
         for (Video aux: videoclipuri) {
+            assert auxUser != null;
             if (!auxUser.getHistory().containsKey(aux.getTitle())) {
                 recommendResult = "StandardRecommendation result: " + aux.getTitle();
                 break;
@@ -34,7 +38,8 @@ public final class RecommExec {
         }
     }
 
-    public void bestUnseenRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
+    public void bestUnseenRecomm(final String username, final MovieDB filme, final ShowDB seriale,
+                                 final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());
@@ -50,6 +55,7 @@ public final class RecommExec {
 
         for (Iterator<Video> it = videoclipuri.iterator(); it.hasNext();) {
             Video aux = it.next();
+            assert auxUser != null;
             if (auxUser.getHistory().containsKey(aux.getTitle())) {
                 it.remove();
             }
@@ -71,8 +77,8 @@ public final class RecommExec {
         }
     }
 
-    public void searchRecomm(final String username, final String genre, final MovieDB filme, final ShowDB seriale,
-                             final UserDB users) {
+    public void searchRecomm(final String username, final String genre, final MovieDB filme,
+                             final ShowDB seriale, final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         ArrayList<Video> videos = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
@@ -86,9 +92,11 @@ public final class RecommExec {
         }
 
         // Check if user has premium subscription
+        assert auxUser != null;
         if (auxUser.getSubscriptionType().equals("PREMIUM")) {
             for (Video aux: videoclipuri) {
-                if ((!auxUser.getHistory().containsKey(aux.getTitle())) && (aux.getGenres().contains(genre))) {
+                if ((!auxUser.getHistory().containsKey(aux.getTitle()))
+                        && (aux.getGenres().contains(genre))) {
                     videos.add(aux);
                 }
             }
@@ -127,7 +135,8 @@ public final class RecommExec {
         return numberOfViews;
     }
 
-    public void popularRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
+    public void popularRecomm(final String username, final MovieDB filme, final ShowDB seriale,
+                              final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());
@@ -147,20 +156,22 @@ public final class RecommExec {
                 if (!popularitateGenuri.containsKey(gen)) {
                     popularitateGenuri.put(gen, numberOfViews(video, users.getUsers()));
                 } else {
-                    popularitateGenuri.replace(gen, popularitateGenuri.get(gen) + numberOfViews(video, users.getUsers()));
+                    popularitateGenuri.replace(gen, popularitateGenuri.get(gen)
+                            + numberOfViews(video, users.getUsers()));
                 }
             }
         }
 
-        ArrayList<PopularGenres> genuriPopulare = new ArrayList<>();
+        ArrayList<TopGenres> genuriPopulare = new ArrayList<>();
 
-        for(Map.Entry<String, Integer> entry : popularitateGenuri.entrySet()) {
-            genuriPopulare.add(new PopularGenres(entry.getKey(), entry.getValue()));
+        for (Map.Entry<String, Integer> entry : popularitateGenuri.entrySet()) {
+            genuriPopulare.add(new TopGenres(entry.getKey(), entry.getValue()));
         }
 
-        Comparator<PopularGenres> compareByPopularity = Comparator.comparingInt(PopularGenres::getPopularity);
-        genuriPopulare.sort(compareByPopularity.reversed());
+        Comparator<TopGenres> cmpByPopularity = Comparator.comparingInt(TopGenres::getPopularity);
+        genuriPopulare.sort(cmpByPopularity.reversed());
 
+        assert auxUser != null;
         if (auxUser.getSubscriptionType().equals("PREMIUM")) {
             recommendResult = "PopularRecommendation cannot be applied!";
 
@@ -174,7 +185,7 @@ public final class RecommExec {
 
             boolean semafor = false;
 
-            for (PopularGenres gen: genuriPopulare) {
+            for (TopGenres gen: genuriPopulare) {
                 for (Video video: videoclipuri) {
                     if (video.getGenres().contains(gen.getGenre())) {
                         recommendResult = "PopularRecommendation result: " + video.getTitle();
@@ -192,7 +203,8 @@ public final class RecommExec {
         }
     }
 
-    public void favoriteRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
+    public void favRecomm(final String username, final MovieDB filme, final ShowDB seriale,
+                          final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());
@@ -206,6 +218,7 @@ public final class RecommExec {
             }
         }
 
+        assert auxUser != null;
         if (auxUser.getSubscriptionType().equals("PREMIUM")) {
             // Scoatem toate video-urile vazute
             for (Iterator<Video> it = videoclipuri.iterator(); it.hasNext();) {
@@ -216,14 +229,14 @@ public final class RecommExec {
             }
 
             for (Video aux: videoclipuri) {
-                if (aux.numberOfFavorites(users) > favoriteNumber) {
-                    favoriteNumber = aux.numberOfFavorites(users);
+                if (aux.nrOfFavs(users) > favoriteNumber) {
+                    favoriteNumber = aux.nrOfFavs(users);
                 }
             }
 
             recommendResult = "FavoriteRecommendation cannot be applied!";
             for (Video aux: videoclipuri) {
-                if (aux.numberOfFavorites(users) == favoriteNumber) {
+                if (aux.nrOfFavs(users) == favoriteNumber) {
                     favoriteTitle = aux.getTitle();
                     recommendResult = "FavoriteRecommendation result: " + favoriteTitle;
                     break;
@@ -234,7 +247,7 @@ public final class RecommExec {
         }
     }
 
-    public String getRecommendResult() {
+    public String getResult() {
         return recommendResult;
     }
 }

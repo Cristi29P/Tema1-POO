@@ -14,14 +14,15 @@ public class Video {
 
     }
 
-    public Video(final String title, final int launchYear, final ArrayList<String> cast, final ArrayList<String> genres) {
+    public Video(final String title, final int launchYear, final ArrayList<String> cast,
+                 final ArrayList<String> genres) {
         this.title = title;
         this.launchYear = launchYear;
         this.cast = cast;
         this.genres = genres;
     }
 
-    public int numberOfFavorites(final UserDB users) {
+    public int nrOfFavs(final UserDB users) {
         return 0;
     }
 
@@ -29,18 +30,34 @@ public class Video {
         return 0;
     }
 
+    /**
+     * Returns video's title
+     * @return video title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Sets a video title
+     * @param title provided
+     */
     public void setTitle(final String title) {
         this.title = title;
     }
 
+    /**
+     * Returns video's launch year
+     * @return launch year
+     */
     public int getLaunchYear() {
         return launchYear;
     }
 
+    /**
+     * Sets a launch year for the video
+     * @param launchYear provided
+     */
     public void setLaunchYear(final int launchYear) {
         this.launchYear = launchYear;
     }

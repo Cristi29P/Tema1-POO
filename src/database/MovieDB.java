@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public final class MovieDB {
     private ArrayList<Movie> movies;
 
-    public MovieDB(ArrayList<Movie> movies) {
+    public MovieDB(final ArrayList<Movie> movies) {
         this.movies = movies;
     }
 
@@ -15,7 +15,7 @@ public final class MovieDB {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(final ArrayList<Movie> movies) {
         this.movies = movies;
     }
 }

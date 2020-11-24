@@ -62,10 +62,6 @@ public final class Season {
         return userRated;
     }
 
-    public void setUserRated(ArrayList<String> userRated) {
-        this.userRated = userRated;
-    }
-
     @Override
     public String toString() {
         return "Episode{"

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public final class Actor {
     private String name;
-    private String careerDescription;
+    private String description;
     private ArrayList<String> filmography;
     private Map<ActorsAwards, Integer> awards;
     private double averageRating;
@@ -14,10 +14,10 @@ public final class Actor {
 
     }
 
-    public Actor(final String name, final String careerDescription, final ArrayList<String> filmography,
+    public Actor(final String name, final String description, final ArrayList<String> filmography,
                  final Map<ActorsAwards, Integer> awards) {
         this.name = name;
-        this.careerDescription = careerDescription;
+        this.description = description;
         this.filmography = filmography;
         this.awards = awards;
         averageRating = 0;
@@ -31,12 +31,12 @@ public final class Actor {
         this.name = name;
     }
 
-    public String getCareerDescription() {
-        return careerDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCareerDescription(final String careerDescription) {
-        this.careerDescription = careerDescription;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public ArrayList<String> getFilmography() {
@@ -59,7 +59,7 @@ public final class Actor {
         return averageRating;
     }
 
-    public void setAverageRating(double averageRating) {
+    public void setAverageRating(final double averageRating) {
         this.averageRating = averageRating;
     }
 }

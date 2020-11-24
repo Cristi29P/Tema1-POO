@@ -7,21 +7,21 @@ public final class User {
     private String username;
     private String subscriptionType;
     private Map<String, Integer> history;
-    private ArrayList<String> favoriteMovies;
-    private int numarDeRatinguriDate;
+    private ArrayList<String> favMovies;
+    private int noRatings;
 
     public User() {
 
-        numarDeRatinguriDate = 0;
+        noRatings = 0;
     }
 
     public User(final String username, final String subscriptionType,
-                final Map<String, Integer> history, final ArrayList<String> favoriteMovies) {
+                final Map<String, Integer> history, final ArrayList<String> favMovies) {
         this.username = username;
         this.subscriptionType = subscriptionType;
         this.history = history;
-        this.favoriteMovies = favoriteMovies;
-        numarDeRatinguriDate = 0;
+        this.favMovies = favMovies;
+        noRatings = 0;
     }
 
     public String getUsername() {
@@ -48,19 +48,19 @@ public final class User {
         this.history = history;
     }
 
-    public ArrayList<String> getFavoriteMovies() {
-        return favoriteMovies;
+    public ArrayList<String> getFavMovies() {
+        return favMovies;
     }
 
-    public void setFavoriteMovies(final ArrayList<String> favoriteMovies) {
-        this.favoriteMovies = favoriteMovies;
+    public void setFavMovies(final ArrayList<String> favMovies) {
+        this.favMovies = favMovies;
     }
 
-    public int getNumarDeRatinguriDate() {
-        return numarDeRatinguriDate;
+    public int getNoRatings() {
+        return noRatings;
     }
 
-    public void setNumarDeRatinguriDate(int numarDeRatinguriDate) {
-        this.numarDeRatinguriDate = numarDeRatinguriDate;
+    public void setNoRatings(final int noRatings) {
+        this.noRatings = noRatings;
     }
 }
