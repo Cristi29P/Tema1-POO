@@ -3,10 +3,10 @@ import actor.Actor;
 import java.util.ArrayList;
 
 
-public class ActorDatabase {
+public final class ActorDB {
     private ArrayList<Actor> actors;
 
-    public ActorDatabase(ArrayList<Actor> actors) {
+    public ActorDB(ArrayList<Actor> actors) {
         this.actors = actors;
     }
 

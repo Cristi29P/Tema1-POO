@@ -1,12 +1,16 @@
 package main;
 
-import Actions.CommandExecutor;
-import Actions.QueryExecutor;
-import Actions.RecommendationExecutor;
+import action.CommandExec;
+import action.QueryExec;
+import action.RecommExec;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
-import database.*;
+import database.ActorDB;
+import database.CreatorDB;
+import database.MovieDB;
+import database.ShowDB;
+import database.UserDB;
 import fileio.ActionInputData;
 import fileio.Input;
 import fileio.InputLoader;
@@ -78,20 +82,20 @@ public final class Main {
 
         //TODO add here the entry point to your implementation
 
-        DatabaseCreator creatorBazaDeDate = new DatabaseCreator(input);
+        CreatorDB creatorBazaDeDate = new CreatorDB(input);
 
-        ActorDatabase actoriBazaDeDate = creatorBazaDeDate.generateActorDatabase();
-        UserDatabase useriBazaDeDate = creatorBazaDeDate.generateUserDatabase();
-        MovieDatabase filmeBazaDeDate = creatorBazaDeDate.generateMovieDatabase();
-        ShowDatabase serialeBazaDeDate = creatorBazaDeDate.generateShowDatabase();
+        ActorDB actoriBazaDeDate = creatorBazaDeDate.generateActorDatabase();
+        UserDB useriBazaDeDate = creatorBazaDeDate.generateUserDatabase();
+        MovieDB filmeBazaDeDate = creatorBazaDeDate.generateMovieDatabase();
+        ShowDB serialeBazaDeDate = creatorBazaDeDate.generateShowDatabase();
 
-        CommandExecutor executorComenzi = new CommandExecutor();
-        QueryExecutor executorQuery = new QueryExecutor();
-        RecommendationExecutor executorRecomandari = new RecommendationExecutor();
+        CommandExec executorComenzi = new CommandExec();
+        QueryExec executorQuery = new QueryExec();
+        RecommExec executorRecomandari = new RecommExec();
 
         List<ActionInputData> actiuni = input.getCommands();
 
-        for(ActionInputData aux: actiuni) {
+        for (ActionInputData aux: actiuni) {
             if (aux.getActionType().equals("command")) {
                 if (aux.getType().equals("favorite")) {
                     executorComenzi.addFavorite(aux.getUsername(), aux.getTitle(), useriBazaDeDate.getUsers());

@@ -8,21 +8,21 @@ import fileio.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseCreator {
-    private Input input;
+public final class CreatorDB {
+    private final Input input;
 
-    public DatabaseCreator(Input input) {
+    public CreatorDB(Input input) {
         this.input = input;
     }
 
 
-    public ActorDatabase generateActorDatabase() {
+    public ActorDB generateActorDatabase() {
 
 
         List<ActorInputData> actorsInput = input.getActors();
         ArrayList<Actor> actors = new ArrayList<>();
 
-        for(ActorInputData aux: actorsInput) {
+        for (ActorInputData aux: actorsInput) {
             Actor actorAuxiliar = new Actor();
             actorAuxiliar.setName(aux.getName());
             actorAuxiliar.setCareerDescription((aux.getCareerDescription()));
@@ -30,16 +30,16 @@ public class DatabaseCreator {
             actorAuxiliar.setAwards(aux.getAwards());
             actors.add(actorAuxiliar);
         }
-        return new ActorDatabase(actors);
+        return new ActorDB(actors);
     }
 
-    public UserDatabase generateUserDatabase() {
+    public UserDB generateUserDatabase() {
 
 
         List<UserInputData> usersInput = input.getUsers();
         ArrayList<User> users = new ArrayList<>();
 
-        for(UserInputData aux: usersInput) {
+        for (UserInputData aux: usersInput) {
             User userAuxiliar = new User();
             userAuxiliar.setUsername(aux.getUsername());
             userAuxiliar.setSubscriptionType(aux.getSubscriptionType());
@@ -48,16 +48,16 @@ public class DatabaseCreator {
             users.add(userAuxiliar);
         }
 
-        return new UserDatabase(users);
+        return new UserDB(users);
      }
 
-    public MovieDatabase generateMovieDatabase() {
+    public MovieDB generateMovieDatabase() {
 
 
         List<MovieInputData> moviesInput = input.getMovies();
         ArrayList<Movie> movies = new ArrayList<>();
 
-        for(MovieInputData aux: moviesInput) {
+        for (MovieInputData aux: moviesInput) {
             Movie movieAuxiliar = new Movie();
             movieAuxiliar.setMovieLength(aux.getDuration());
             movieAuxiliar.setCast(aux.getCast());
@@ -67,18 +67,18 @@ public class DatabaseCreator {
             movies.add(movieAuxiliar);
         }
 
-        return new MovieDatabase(movies);
+        return new MovieDB(movies);
     }
 
 
 
-    public ShowDatabase generateShowDatabase() {
+    public ShowDB generateShowDatabase() {
 
 
         List<SerialInputData> showsInput = input.getSerials();
         ArrayList<Show> shows = new ArrayList<>();
 
-        for(SerialInputData aux: showsInput) {
+        for (SerialInputData aux: showsInput) {
             Show showAuxiliar = new Show();
             showAuxiliar.setNumberOfSeasons(aux.getNumberSeason());
             showAuxiliar.setSezoane(aux.getSeasons());
@@ -89,6 +89,6 @@ public class DatabaseCreator {
             shows.add(showAuxiliar);
         }
 
-        return new ShowDatabase(shows);
+        return new ShowDB(shows);
     }
 }

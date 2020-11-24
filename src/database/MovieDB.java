@@ -4,10 +4,10 @@ import entertainment.Movie;
 
 import java.util.ArrayList;
 
-public class MovieDatabase {
-    ArrayList<Movie> movies;
+public final class MovieDB {
+    private ArrayList<Movie> movies;
 
-    public MovieDatabase(ArrayList<Movie> movies) {
+    public MovieDB(ArrayList<Movie> movies) {
         this.movies = movies;
     }
 

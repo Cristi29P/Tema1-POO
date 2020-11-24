@@ -3,10 +3,10 @@ package database;
 import entities.User;
 import java.util.ArrayList;
 
-public class UserDatabase {
+public final class UserDB {
     private ArrayList<User> users;
 
-    public UserDatabase(ArrayList<User> users) {
+    public UserDB(ArrayList<User> users) {
         this.users = users;
     }
 

@@ -3,7 +3,7 @@ package entities;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class User {
+public final class User {
     private String username;
     private String subscriptionType;
     private Map<String, Integer> history;
@@ -15,7 +15,8 @@ public class User {
         numarDeRatinguriDate = 0;
     }
 
-    public User(String username, String subscriptionType, Map<String, Integer> history, ArrayList<String> favoriteMovies) {
+    public User(final String username, final String subscriptionType,
+                final Map<String, Integer> history, final ArrayList<String> favoriteMovies) {
         this.username = username;
         this.subscriptionType = subscriptionType;
         this.history = history;
@@ -27,7 +28,7 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -35,7 +36,7 @@ public class User {
         return subscriptionType;
     }
 
-    public void setSubscriptionType(String subscriptionType) {
+    public void setSubscriptionType(final String subscriptionType) {
         this.subscriptionType = subscriptionType;
     }
 
@@ -43,7 +44,7 @@ public class User {
         return history;
     }
 
-    public void setHistory(Map<String, Integer> history) {
+    public void setHistory(final Map<String, Integer> history) {
         this.history = history;
     }
 
@@ -51,7 +52,7 @@ public class User {
         return favoriteMovies;
     }
 
-    public void setFavoriteMovies(ArrayList<String> favoriteMovies) {
+    public void setFavoriteMovies(final ArrayList<String> favoriteMovies) {
         this.favoriteMovies = favoriteMovies;
     }
 

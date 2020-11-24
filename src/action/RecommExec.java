@@ -1,20 +1,20 @@
-package Actions;
+package action;
 
-import database.MovieDatabase;
-import database.ShowDatabase;
-import database.UserDatabase;
+import database.MovieDB;
+import database.ShowDB;
+import database.UserDB;
 import entertainment.Video;
 import entities.User;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 import entertainment.PopularGenres;
 
 
-public class RecommendationExecutor {
+public final class RecommExec {
     private String recommendResult;
 
-    public void stdRecomm(String username, MovieDatabase filme, ShowDatabase seriale, UserDatabase users) {
+    public void stdRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());
@@ -34,7 +34,7 @@ public class RecommendationExecutor {
         }
     }
 
-    public void bestUnseenRecomm(String username, MovieDatabase filme, ShowDatabase seriale, UserDatabase users) {
+    public void bestUnseenRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());
@@ -71,8 +71,8 @@ public class RecommendationExecutor {
         }
     }
 
-    public void searchRecomm(String username, String genre, MovieDatabase filme, ShowDatabase seriale,
-                             UserDatabase users) {
+    public void searchRecomm(final String username, final String genre, final MovieDB filme, final ShowDB seriale,
+                             final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         ArrayList<Video> videos = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
@@ -96,8 +96,8 @@ public class RecommendationExecutor {
             Comparator<Video> compareByTitle = Comparator.comparing(Video::getTitle);
             Comparator<Video> compareByRating = Comparator.comparingDouble(Video::doRating);
 
-            Collections.sort(videos, compareByTitle);
-            Collections.sort(videos, compareByRating);
+            videos.sort(compareByTitle);
+            videos.sort(compareByRating);
 
             ArrayList<String> videoTitles = new ArrayList<>();
 
@@ -117,7 +117,7 @@ public class RecommendationExecutor {
 
 
     // Nr de vizualizari ale unui video
-    public int numberOfViews(Video video, ArrayList<User> users) {
+    public int numberOfViews(final Video video, final ArrayList<User> users) {
         int numberOfViews = 0;
             for (User user: users) {
                 if (user.getHistory().containsKey(video.getTitle())) {
@@ -127,7 +127,7 @@ public class RecommendationExecutor {
         return numberOfViews;
     }
 
-    public void popularRecomm(String username, MovieDatabase filme, ShowDatabase seriale, UserDatabase users) {
+    public void popularRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());
@@ -159,7 +159,7 @@ public class RecommendationExecutor {
         }
 
         Comparator<PopularGenres> compareByPopularity = Comparator.comparingInt(PopularGenres::getPopularity);
-        Collections.sort(genuriPopulare, compareByPopularity.reversed());
+        genuriPopulare.sort(compareByPopularity.reversed());
 
         if (auxUser.getSubscriptionType().equals("PREMIUM")) {
             recommendResult = "PopularRecommendation cannot be applied!";
@@ -192,7 +192,7 @@ public class RecommendationExecutor {
         }
     }
 
-    public void favoriteRecomm(String username,  MovieDatabase filme, ShowDatabase seriale, UserDatabase users) {
+    public void favoriteRecomm(final String username, final MovieDB filme, final ShowDB seriale, final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
         videoclipuri.addAll(seriale.getShows());

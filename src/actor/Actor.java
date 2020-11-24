@@ -3,7 +3,7 @@ package actor;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Actor {
+public final class Actor {
     private String name;
     private String careerDescription;
     private ArrayList<String> filmography;
@@ -14,7 +14,8 @@ public class Actor {
 
     }
 
-    public Actor(String name, String careerDescription, ArrayList<String> filmography, Map<ActorsAwards, Integer> awards) {
+    public Actor(final String name, final String careerDescription, final ArrayList<String> filmography,
+                 final Map<ActorsAwards, Integer> awards) {
         this.name = name;
         this.careerDescription = careerDescription;
         this.filmography = filmography;
@@ -26,7 +27,7 @@ public class Actor {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -34,7 +35,7 @@ public class Actor {
         return careerDescription;
     }
 
-    public void setCareerDescription(String careerDescription) {
+    public void setCareerDescription(final String careerDescription) {
         this.careerDescription = careerDescription;
     }
 
@@ -42,7 +43,7 @@ public class Actor {
         return filmography;
     }
 
-    public void setFilmography(ArrayList<String> filmography) {
+    public void setFilmography(final ArrayList<String> filmography) {
         this.filmography = filmography;
     }
 
@@ -50,7 +51,7 @@ public class Actor {
         return awards;
     }
 
-    public void setAwards(Map<ActorsAwards, Integer> awards) {
+    public void setAwards(final Map<ActorsAwards, Integer> awards) {
         this.awards = awards;
     }
 

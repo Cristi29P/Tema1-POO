@@ -1,6 +1,6 @@
 package entertainment;
 
-import database.UserDatabase;
+import database.UserDB;
 
 import java.util.ArrayList;
 
@@ -14,14 +14,14 @@ public class Video {
 
     }
 
-    public Video(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres) {
+    public Video(final String title, final int launchYear, final ArrayList<String> cast, final ArrayList<String> genres) {
         this.title = title;
         this.launchYear = launchYear;
         this.cast = cast;
         this.genres = genres;
     }
 
-    public int numberOfFavorites(UserDatabase users) {
+    public int numberOfFavorites(final UserDB users) {
         return 0;
     }
 
@@ -33,7 +33,7 @@ public class Video {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -41,7 +41,7 @@ public class Video {
         return launchYear;
     }
 
-    public void setLaunchYear(int launchYear) {
+    public void setLaunchYear(final int launchYear) {
         this.launchYear = launchYear;
     }
 
@@ -49,7 +49,7 @@ public class Video {
         return cast;
     }
 
-    public void setCast(ArrayList<String> cast) {
+    public void setCast(final ArrayList<String> cast) {
         this.cast = cast;
     }
 
@@ -57,7 +57,7 @@ public class Video {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public void setGenres(final ArrayList<String> genres) {
         this.genres = genres;
     }
 

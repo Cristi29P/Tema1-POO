@@ -1,19 +1,19 @@
-package Actions;
+package action;
 
-import database.MovieDatabase;
-import database.ShowDatabase;
+import database.MovieDB;
+import database.ShowDB;
 import entertainment.Movie;
 import entertainment.Show;
 import entities.User;
 
 import java.util.ArrayList;
 
-public class CommandExecutor {
+public final class CommandExec {
     private String commandResult;
 
-    public void addFavorite(String username, String title, ArrayList<User> users) {
+    public void addFavorite(final String name, final String title, final ArrayList<User> users) {
         for (User user: users) {
-            if (user.getUsername().equals(username)) {
+            if (user.getUsername().equals(name)) {
                 if (user.getHistory().containsKey(title) && user.getFavoriteMovies().contains(title)) {
                     commandResult = "error -> " + title + " is already in favourite list";
                 } else if (user.getHistory().containsKey(title) && !(user.getFavoriteMovies().contains(title))) {
@@ -26,21 +26,20 @@ public class CommandExecutor {
         }
     }
 
-    public void addView(String username, String title, ArrayList<User> users) {
+    public void addView(final String username, final String title, final ArrayList<User> users) {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
                 if (user.getHistory().containsKey(title)) {
                     user.getHistory().replace(title, user.getHistory().get(title) + 1);
-                    commandResult = "success -> " + title + " was viewed with total views of " + user.getHistory().get(title);
                 } else {
                     user.getHistory().put(title, 1);
-                    commandResult = "success -> " + title + " was viewed with total views of " + user.getHistory().get(title);
                 }
+                commandResult = "success -> " + title + " was viewed with total views of " + user.getHistory().get(title);
             }
         }
     }
 
-    public boolean isMovie(String title, MovieDatabase filme) {
+    public boolean isMovie(final String title, final MovieDB filme) {
         for (Movie aux: filme.getMovies()) {
             if (aux.getTitle().equals(title)) {
                 return true;
@@ -48,7 +47,7 @@ public class CommandExecutor {
         }
         return false;
     }
-    public Movie getMovieHook(String title, MovieDatabase filme) {
+    public Movie getMovieHook(final String title, final MovieDB filme) {
         for (Movie aux: filme.getMovies()) {
             if (aux.getTitle().equals(title)) {
                 return aux;
@@ -57,7 +56,7 @@ public class CommandExecutor {
         return null;
     }
 
-    public Show getShowHook(String title, ShowDatabase seriale) {
+    public Show getShowHook(final String title, final ShowDB seriale) {
         for (Show aux: seriale.getShows()) {
             if (aux.getTitle().equals(title)) {
                 return aux;
@@ -66,8 +65,9 @@ public class CommandExecutor {
         return null;
     }
 
-    public void addRating(String username, String title, ArrayList<User> users, double grade, int seasonNumber,
-                          MovieDatabase filme, ShowDatabase seriale) {
+    public void addRating(final String username, final String title, ArrayList<User> users,
+                          final double grade, final int seasonNumber,
+                          MovieDB filme, ShowDB seriale) {
         for (User user: users) {
             if (user.getUsername().equals(username)) { // CAUTAM USERUL
                 if (user.getHistory().containsKey(title)) { // ESTE VAZUT CA SA PUTEM DA RATING

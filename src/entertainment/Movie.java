@@ -1,11 +1,10 @@
 package entertainment;
 
-import database.MovieDatabase;
-import database.UserDatabase;
+import database.UserDB;
 
 import java.util.ArrayList;
 
-public class Movie extends Video {
+public final class Movie extends Video {
     private int movieLength;
     private ArrayList<Double> ratings = new ArrayList<>();
     private ArrayList<String> userRated = new ArrayList<>();
@@ -15,7 +14,8 @@ public class Movie extends Video {
 
     }
 
-    public Movie(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres, int movieLength) {
+    public Movie(final String title, final int launchYear, final ArrayList<String> cast,
+                 final ArrayList<String> genres, final int movieLength) {
         super(title, launchYear, cast, genres);
         this.movieLength = movieLength;
     }
@@ -35,7 +35,7 @@ public class Movie extends Video {
     }
 
     @Override
-    public int numberOfFavorites(UserDatabase users) {
+    public int numberOfFavorites(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getFavoriteMovies().contains(this.getTitle())) {
@@ -45,7 +45,7 @@ public class Movie extends Video {
         return contor;
     }
 
-    public int numberOfViews(UserDatabase users) {
+    public int numberOfViews(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
@@ -59,7 +59,7 @@ public class Movie extends Video {
         return movieLength;
     }
 
-    public void setMovieLength(int movieLength) {
+    public void setMovieLength(final int movieLength) {
         this.movieLength = movieLength;
     }
 
@@ -67,15 +67,11 @@ public class Movie extends Video {
         return ratings;
     }
 
-    public void setRatings(ArrayList<Double> ratings) {
+    public void setRatings(final ArrayList<Double> ratings) {
         this.ratings = ratings;
     }
 
     public ArrayList<String> getUserRated() {
         return userRated;
-    }
-
-    public void setUserRated(ArrayList<String> userRated) {
-        this.userRated = userRated;
     }
 }

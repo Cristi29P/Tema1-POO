@@ -1,10 +1,10 @@
 package entertainment;
 
-import database.UserDatabase;
+import database.UserDB;
 
 import java.util.ArrayList;
 
-public class Show extends Video{
+public final class Show extends Video{
     private int numberOfSeasons;
     private ArrayList<Season> sezoane;
 
@@ -12,7 +12,8 @@ public class Show extends Video{
 
     }
 
-    public Show(String title, int launchYear, ArrayList<String> cast, ArrayList<String> genres, int numberOfSeasons, ArrayList<Season> sezoane) {
+    public Show(final String title, final int launchYear, final ArrayList<String> cast,
+                final ArrayList<String> genres, final int numberOfSeasons, final ArrayList<Season> sezoane) {
         super(title, launchYear, cast, genres);
         this.numberOfSeasons = numberOfSeasons;
         this.sezoane = sezoane;
@@ -21,8 +22,8 @@ public class Show extends Video{
     @Override
     public double doRating() {
         double sum = 0;
-        for (int i = 0; i < sezoane.size(); i++) {
-            sum += sezoane.get(i).doSeasonRating();
+        for (Season season : sezoane) {
+            sum += season.doSeasonRating();
         }
 
         if (sezoane.size() != 0) {
@@ -33,7 +34,7 @@ public class Show extends Video{
     }
 
     @Override
-    public int numberOfFavorites(UserDatabase users) {
+    public int numberOfFavorites(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getFavoriteMovies().contains(this.getTitle())) {
@@ -43,7 +44,7 @@ public class Show extends Video{
         return contor;
     }
 
-    public int numberOfViews(UserDatabase users) {
+    public int numberOfViews(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
@@ -55,15 +56,13 @@ public class Show extends Video{
 
     public int getLength() {
         int sum = 0;
-        for (int i = 0; i < sezoane.size(); i++) {
-            sum += sezoane.get(i).getDuration();
+        for (Season season : sezoane) {
+            sum += season.getDuration();
         }
         return sum;
     }
 
-    public int getNumberOfSeasons() {return numberOfSeasons; }
-
-    public void setNumberOfSeasons(int numberOfSeasons) {
+    public void setNumberOfSeasons(final int numberOfSeasons) {
         this.numberOfSeasons = numberOfSeasons;
     }
 
@@ -71,7 +70,7 @@ public class Show extends Video{
         return sezoane;
     }
 
-    public void setSezoane(ArrayList<Season> sezoane) {
+    public void setSezoane(final ArrayList<Season> sezoane) {
         this.sezoane = sezoane;
     }
 

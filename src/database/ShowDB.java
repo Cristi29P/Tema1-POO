@@ -4,10 +4,10 @@ import entertainment.Show;
 
 import java.util.ArrayList;
 
-public class ShowDatabase {
-    ArrayList<Show> shows;
+public final class ShowDB {
+    private ArrayList<Show> shows;
 
-    public ShowDatabase(ArrayList<Show> shows) {
+    public ShowDB(ArrayList<Show> shows) {
         this.shows = shows;
     }
 
