@@ -21,12 +21,23 @@ import java.util.regex.Pattern;
 public final class QueryExec {
     private String queryResult;
 
+    /**
+     * Removes the last character from a string
+     * @param s the string provided
+     * @return modified string
+     */
     public static String removeLastChar(final String s) {
         return (s == null || s.length() == 0)
                 ? null
                 : (s.substring(0, s.length() - 1));
     }
 
+    /**
+     * Calculates the average of an actor based on the ratings of the video he/she appears in
+     * @param actor caruia i se calculeaza average-ul
+     * @param filme in which he/she played
+     * @param seriale in which he/she played
+     */
     public static void doActorAvg(final Actor actor, final MovieDB filme, final ShowDB seriale) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
         videoclipuri.addAll(filme.getMovies());
@@ -56,6 +67,12 @@ public final class QueryExec {
 
     }
 
+    /**
+     * Checks if an actor has all the awards specified
+     * @param actor to be checked
+     * @param awards needed
+     * @return
+     */
     public boolean hasAwards(final Actor actor, final List<String> awards) {
         boolean semafor = true;
 
@@ -70,6 +87,12 @@ public final class QueryExec {
         return semafor;
     }
 
+    /**
+     * Checks if an actor's description contains all the provided words
+     * @param actor to be checked
+     * @param words list of words needed
+     * @return
+     */
     public boolean hasWords(final Actor actor, final List<String> words) {
         boolean semafor = true;
 
@@ -85,6 +108,12 @@ public final class QueryExec {
         }
         return semafor;
     }
+
+    /**
+     * Computes the number of awards of a specified actor
+     * @param actor to be checked
+     * @return number of awards
+     */
     public int numberOfAwards(final Actor actor) {
         int contorAwards = 0;
 
@@ -95,6 +124,14 @@ public final class QueryExec {
         return contorAwards;
     }
 
+    /**
+     * Main function to compute first actors based on their averages
+     * @param number of actors returned
+     * @param sortType asc/desc
+     * @param actori database provided
+     * @param filme database provided
+     * @param seriale database provided
+     */
     public void getAverage(final int number, final String sortType, final ActorDB actori,
                            final MovieDB filme, final ShowDB seriale) {
         ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
@@ -132,6 +169,12 @@ public final class QueryExec {
 
     }
 
+    /**
+     * Computes the most active users based on their number of ratings
+     * @param number of top users
+     * @param sortType asc/desc
+     * @param users database provided
+     */
     public void getNumberOfRatings(final int number, final String sortType, final UserDB users) {
         ArrayList<User> copieUsers = new ArrayList<>(users.getUsers());
         Comparator<User> compareByRatings = Comparator.comparingInt(User::getNoRatings);
@@ -160,6 +203,12 @@ public final class QueryExec {
         queryResult += "]";
     }
 
+    /**
+     * Computes the most awarded actors based on the number of awards received and their types
+     * @param sortType asc/desc
+     * @param actori database provided
+     * @param filtre for awards provided
+     */
     public void getByAwards(final String sortType, final ActorDB actori,
                             final List<List<String>> filtre) {
         ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
@@ -189,6 +238,12 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes the actors that have a specific description
+     * @param sortType asc/desc
+     * @param actori database provided
+     * @param filtre for words provided
+     */
     public void getByDescription(final String sortType, final ActorDB actori,
                                  final List<List<String>> filtre) {
         ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
@@ -217,6 +272,13 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes the most rated movies based on several criteria
+     * @param number of top movies
+     * @param sortType asc/desc
+     * @param filme database provided
+     * @param filtre for movies provided
+     */
     public void getRatedMovies(final int number, final String sortType, final MovieDB filme,
                                final List<List<String>> filtre) {
         ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
@@ -254,6 +316,13 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes the most rated shows based on several criteria
+     * @param number of top shows
+     * @param sortType asc/desc
+     * @param seriale database provided
+     * @param filtre for shows provided
+     */
     public void getRatedShows(final int number, final String sortType, final ShowDB seriale,
                               final List<List<String>> filtre) {
         ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
@@ -292,6 +361,13 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes the longest movies based on several criteria
+     * @param number of top movies returned
+     * @param sortType asc/desc
+     * @param filme database
+     * @param filtre for the movies provided
+     */
     public void getLongestMovies(final int number, final String sortType, final MovieDB filme,
                                  final List<List<String>> filtre) {
         ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
@@ -328,6 +404,13 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes the longest shows based on several criteria
+     * @param number of top shows returned
+     * @param sortType asc/desc
+     * @param seriale database provided
+     * @param filtre for shows provided
+     */
     public void getLongestShows(final int number, final String sortType, final ShowDB seriale,
                                 final List<List<String>> filtre) {
         ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
@@ -364,6 +447,14 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes favorite movies based on their number of appearances in user's favorite lists
+     * @param number of favorite movies returned
+     * @param sortType asc/desc
+     * @param filme database provided
+     * @param users database provided
+     * @param filtre for movies provided
+     */
     public void getFavoriteMovies(final int number, final String sortType, final MovieDB filme,
                                   final UserDB users, final List<List<String>> filtre) {
         ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
@@ -401,7 +492,15 @@ public final class QueryExec {
         }
     }
 
-    public void getFavoriteShows(final int number, final String sortT, final ShowDB seriale,
+    /**
+     * Computes favorite shows based on their number of appearances in user's favorite lists
+     * @param number of top shows returned
+     * @param sortType asc/desc
+     * @param seriale database provided
+     * @param users database provided
+     * @param filtre for shows provided
+     */
+    public void getFavoriteShows(final int number, final String sortType, final ShowDB seriale,
                                  final UserDB users, final List<List<String>> filtre) {
         ArrayList<Show>  copieSeriale = new ArrayList<>(seriale.getShows());
         Comparator<Show> cmpByTitle = Comparator.comparing(Show::getTitle);
@@ -416,7 +515,7 @@ public final class QueryExec {
             copieSeriale.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
         }
 
-        if (sortT.equals("asc")) {
+        if (sortType.equals("asc")) {
             copieSeriale.sort(cmpByTitle);
             copieSeriale.sort(cmpByFavNumber);
         } else {
@@ -437,6 +536,14 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes the most viewed movies based on several criteria
+     * @param number of top movies returned
+     * @param sortType asc/desc
+     * @param filme database returned
+     * @param users database returned
+     * @param filtre for movies provided
+     */
     public void getViewedMovies(final int number, final String sortType, final MovieDB filme,
                                 final UserDB users, final List<List<String>> filtre) {
         ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
@@ -473,6 +580,14 @@ public final class QueryExec {
         }
     }
 
+    /**
+     * Computes the most viewed shows based on several criteria
+     * @param number of top shows returned
+     * @param sortType asc/desc
+     * @param seriale database provided
+     * @param users database provided
+     * @param filtre for shows provided
+     */
     public void getViewedShows(final int number, final String sortType, final ShowDB seriale,
                                final UserDB users, final List<List<String>> filtre) {
         ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());

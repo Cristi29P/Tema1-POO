@@ -22,10 +22,19 @@ public class Video {
         this.genres = genres;
     }
 
+    /**
+     * Method inherited and overwritten in subclasses
+     * @param users database provided
+     * @return number of favorite apparitions
+     */
     public int nrOfFavs(final UserDB users) {
         return 0;
     }
 
+    /**
+     * Method inherited and overwritten in subclasses
+     * @return rating of a video
+     */
     public double doRating() {
         return 0;
     }
@@ -62,18 +71,34 @@ public class Video {
         this.launchYear = launchYear;
     }
 
+    /**
+     * Returns a list containing the video cast
+     * @return arraylist of strings
+     */
     public ArrayList<String> getCast() {
         return cast;
     }
 
+    /**
+     * Sets the cast for a video
+     * @param cast provided for the video
+     */
     public void setCast(final ArrayList<String> cast) {
         this.cast = cast;
     }
 
+    /**
+     * Returns a list of genres for the video
+     * @return an arraylist of strings
+     */
     public ArrayList<String> getGenres() {
         return genres;
     }
 
+    /**
+     * Sets the genres for a video
+     * @param genres  provided for the video
+     */
     public void setGenres(final ArrayList<String> genres) {
         this.genres = genres;
     }

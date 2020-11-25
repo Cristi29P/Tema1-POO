@@ -45,6 +45,11 @@ public final class Movie extends Video {
         return contor;
     }
 
+    /**
+     * Returns the total number of views of a movie in a database
+     * @param users database provided
+     * @return total number of views
+     */
     public int nrOfViews(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {

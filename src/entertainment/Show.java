@@ -45,6 +45,11 @@ public final class Show extends Video {
         return contor;
     }
 
+    /**
+     * Returns the total number of views of the current show
+     * @param users database provided
+     * @return the number of views
+     */
     public int nrOfViews(final UserDB users) {
         int contor = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
@@ -55,6 +60,10 @@ public final class Show extends Video {
         return contor;
     }
 
+    /**
+     * Computes show total duration
+     * @return total duration
+     */
     public int getLength() {
         int sum = 0;
         for (Season season : sezoane) {

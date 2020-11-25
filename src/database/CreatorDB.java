@@ -20,10 +20,11 @@ public final class CreatorDB {
         this.input = input;
     }
 
-
+    /**
+     * Generates an actor database
+     * @return database object
+     */
     public ActorDB generateActorDB() {
-
-
         List<ActorInputData> actorsInput = input.getActors();
         ArrayList<Actor> actors = new ArrayList<>();
 
@@ -38,6 +39,10 @@ public final class CreatorDB {
         return new ActorDB(actors);
     }
 
+    /**
+     * Generates user database
+     * @return a database object
+     */
     public UserDB generateUserDB() {
 
 
@@ -56,6 +61,10 @@ public final class CreatorDB {
         return new UserDB(users);
      }
 
+    /**
+     * Generates a movie database
+     * @return a database object
+     */
     public MovieDB generateMovieDB() {
 
 
@@ -75,8 +84,10 @@ public final class CreatorDB {
         return new MovieDB(movies);
     }
 
-
-
+    /**
+     * Generates a show database
+     * @return a database object
+     */
     public ShowDB generateShowDB() {
 
 

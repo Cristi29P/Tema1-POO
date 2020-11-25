@@ -30,6 +30,10 @@ public final class Season {
         this.ratings = new ArrayList<>();
     }
 
+    /**
+     * Computes the total season rating
+     * @return total rating
+     */
     public double doSeasonRating() {
         double sum = 0;
         for (int i = 0; i < ratings.size(); i++) {

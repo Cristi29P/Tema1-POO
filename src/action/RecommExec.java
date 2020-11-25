@@ -16,6 +16,13 @@ import entertainment.TopGenres;
 public final class RecommExec {
     private String recommendResult;
 
+    /**
+     * Returns the first unseen video of a user from the database
+     * @param username of the user
+     * @param filme database provided
+     * @param seriale database provided
+     * @param users database provided
+     */
     public void stdRecomm(final String username, final MovieDB filme, final ShowDB seriale,
                           final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
@@ -38,6 +45,13 @@ public final class RecommExec {
         }
     }
 
+    /**
+     * Returns the first unseen video with the highest rating for a user
+     * @param username of the user
+     * @param filme database provided
+     * @param seriale database provided
+     * @param users database provided
+     */
     public void bestUnseenRecomm(final String username, final MovieDB filme, final ShowDB seriale,
                                  final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
@@ -77,6 +91,14 @@ public final class RecommExec {
         }
     }
 
+    /**
+     * All the unseen videos from a certain genre and meet certain criteria
+     * @param username of the user
+     * @param genre of the videos
+     * @param filme database provided
+     * @param seriale database provided
+     * @param users database provided
+     */
     public void searchRecomm(final String username, final String genre, final MovieDB filme,
                              final ShowDB seriale, final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
@@ -124,7 +146,12 @@ public final class RecommExec {
     }
 
 
-    // Nr de vizualizari ale unui video
+    /**
+     * Returns the total number of views of a video
+     * @param video to check the number of views
+     * @param users list provided
+     * @return total number of views
+     */
     public int numberOfViews(final Video video, final ArrayList<User> users) {
         int numberOfViews = 0;
             for (User user: users) {
@@ -135,6 +162,13 @@ public final class RecommExec {
         return numberOfViews;
     }
 
+    /**
+     * Most popular unseen video from a certain genre
+     * @param username of the user
+     * @param filme database provided
+     * @param seriale database provided
+     * @param users database provided
+     */
     public void popularRecomm(final String username, final MovieDB filme, final ShowDB seriale,
                               final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
@@ -203,6 +237,13 @@ public final class RecommExec {
         }
     }
 
+    /**
+     * Returns the video that is the most common in the users' favorite lists
+     * @param username of the user
+     * @param filme database
+     * @param seriale database
+     * @param users database
+     */
     public void favRecomm(final String username, final MovieDB filme, final ShowDB seriale,
                           final UserDB users) {
         ArrayList<Video> videoclipuri = new ArrayList<>();
