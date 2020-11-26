@@ -10,11 +10,6 @@ public final class User {
     private ArrayList<String> favMovies;
     private int noRatings;
 
-    public User() {
-
-        noRatings = 0;
-    }
-
     public User(final String username, final String subscriptionType,
                 final Map<String, Integer> history, final ArrayList<String> favMovies) {
         this.username = username;

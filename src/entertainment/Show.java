@@ -8,10 +8,6 @@ public final class Show extends Video {
     private int numberOfSeasons;
     private ArrayList<Season> sezoane;
 
-    public Show() {
-
-    }
-
     public Show(final String title, final int launchYear, final ArrayList<String> cast,
                 final ArrayList<String> genres, final int numberOfSeasons,
                 final ArrayList<Season> sezoane) {

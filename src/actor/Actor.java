@@ -11,7 +11,6 @@ public final class Actor {
     private double averageRating;
 
     public Actor() {
-
     }
 
     public Actor(final String name, final String description, final ArrayList<String> filmography,

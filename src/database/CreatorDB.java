@@ -29,12 +29,9 @@ public final class CreatorDB {
         ArrayList<Actor> actors = new ArrayList<>();
 
         for (ActorInputData aux: actorsInput) {
-            Actor actorAuxiliar = new Actor();
-            actorAuxiliar.setName(aux.getName());
-            actorAuxiliar.setDescription((aux.getCareerDescription()));
-            actorAuxiliar.setFilmography(aux.getFilmography());
-            actorAuxiliar.setAwards(aux.getAwards());
-            actors.add(actorAuxiliar);
+            Actor actorAux = new Actor(aux.getName(), aux.getCareerDescription(),
+                    aux.getFilmography(), aux.getAwards());
+            actors.add(actorAux);
         }
         return new ActorDB(actors);
     }
@@ -48,14 +45,10 @@ public final class CreatorDB {
         ArrayList<User> users = new ArrayList<>();
 
         for (UserInputData aux: usersInput) {
-            User userAuxiliar = new User();
-            userAuxiliar.setUsername(aux.getUsername());
-            userAuxiliar.setSubscriptionType(aux.getSubscriptionType());
-            userAuxiliar.setHistory(aux.getHistory());
-            userAuxiliar.setFavMovies(aux.getFavoriteMovies());
-            users.add(userAuxiliar);
+            User userAux = new User(aux.getUsername(), aux.getSubscriptionType(),
+                    aux.getHistory(), aux.getFavoriteMovies());
+            users.add(userAux);
         }
-
         return new UserDB(users);
      }
 
@@ -68,13 +61,9 @@ public final class CreatorDB {
         ArrayList<Movie> movies = new ArrayList<>();
 
         for (MovieInputData aux: moviesInput) {
-            Movie movieAuxiliar = new Movie();
-            movieAuxiliar.setMovieLength(aux.getDuration());
-            movieAuxiliar.setCast(aux.getCast());
-            movieAuxiliar.setGenres(aux.getGenres());
-            movieAuxiliar.setTitle(aux.getTitle());
-            movieAuxiliar.setLaunchYear(aux.getYear());
-            movies.add(movieAuxiliar);
+            Movie movieAux = new Movie(aux.getTitle(), aux.getYear(), aux.getCast(),
+                    aux.getGenres(), aux.getDuration());
+            movies.add(movieAux);
         }
 
         return new MovieDB(movies);
@@ -89,16 +78,10 @@ public final class CreatorDB {
         ArrayList<Show> shows = new ArrayList<>();
 
         for (SerialInputData aux: showsInput) {
-            Show showAuxiliar = new Show();
-            showAuxiliar.setNumberOfSeasons(aux.getNumberSeason());
-            showAuxiliar.setSezoane(aux.getSeasons());
-            showAuxiliar.setCast(aux.getCast());
-            showAuxiliar.setGenres(aux.getGenres());
-            showAuxiliar.setLaunchYear(aux.getYear());
-            showAuxiliar.setTitle(aux.getTitle());
-            shows.add(showAuxiliar);
+            Show showAux = new Show(aux.getTitle(), aux.getYear(), aux.getCast(), aux.getGenres(),
+                    aux.getNumberSeason(), aux.getSeasons());
+            shows.add(showAux);
         }
-
         return new ShowDB(shows);
     }
 }
