@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public final class Movie extends Video {
     private int movieLength;
     private ArrayList<Double> ratings = new ArrayList<>();
-    private ArrayList<String> userRated = new ArrayList<>();
+    private final ArrayList<String> userRated = new ArrayList<>();
 
 
     public Movie() {
@@ -24,8 +24,8 @@ public final class Movie extends Video {
     public double doRating() {
         double sum = 0;
 
-        for (int i = 0; i < ratings.size(); i++) {
-            sum += ratings.get(i);
+        for (Double rating : ratings) {
+            sum += rating;
         }
         if (ratings.size() != 0) {
             return sum / ratings.size();

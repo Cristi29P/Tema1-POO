@@ -44,8 +44,6 @@ public final class CreatorDB {
      * @return a database object
      */
     public UserDB generateUserDB() {
-
-
         List<UserInputData> usersInput = input.getUsers();
         ArrayList<User> users = new ArrayList<>();
 
@@ -66,8 +64,6 @@ public final class CreatorDB {
      * @return a database object
      */
     public MovieDB generateMovieDB() {
-
-
         List<MovieInputData> moviesInput = input.getMovies();
         ArrayList<Movie> movies = new ArrayList<>();
 
@@ -89,8 +85,6 @@ public final class CreatorDB {
      * @return a database object
      */
     public ShowDB generateShowDB() {
-
-
         List<SerialInputData> showsInput = input.getSerials();
         ArrayList<Show> shows = new ArrayList<>();
 

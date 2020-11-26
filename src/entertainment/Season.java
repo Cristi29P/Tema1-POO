@@ -22,7 +22,7 @@ public final class Season {
      */
     private List<Double> ratings;
 
-    private ArrayList<String> userRated = new ArrayList<>();
+    private final ArrayList<String> userRated = new ArrayList<>();
 
     public Season(final int currentSeason, final int duration) {
         this.currentSeason = currentSeason;
@@ -36,8 +36,8 @@ public final class Season {
      */
     public double doSeasonRating() {
         double sum = 0;
-        for (int i = 0; i < ratings.size(); i++) {
-            sum += ratings.get(i);
+        for (Double rating : ratings) {
+            sum += rating;
         }
         if (ratings.size() != 0) {
             return sum / ratings.size();

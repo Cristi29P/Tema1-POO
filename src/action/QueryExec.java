@@ -22,14 +22,29 @@ public final class QueryExec {
     private String queryResult;
 
     /**
-     * Removes the last character from a string
-     * @param s the string provided
-     * @return modified string
+     * Creates a list of strings with shows' titles
+     * @param list of shows
+     * @param number of shows to be added
      */
-    public static String removeLastChar(final String s) {
-        return (s == null || s.length() == 0)
-                ? null
-                : (s.substring(0, s.length() - 1));
+    public void createShowResult(final ArrayList<Show> list, final int number) {
+        ArrayList<String> titles = new ArrayList<>();
+        for (int i = 0; i < (Math.min(number, list.size())); i++) {
+            titles.add(list.get(i).getTitle());
+        }
+        queryResult = "Query result: " + titles.toString();
+    }
+
+    /**
+     * Creates a list of strings with movies' titles
+     * @param list of movies
+     * @param number of movies to be added
+     */
+    public void createMovieResult(final ArrayList<Movie> list, final int number) {
+        ArrayList<String> titles = new ArrayList<>();
+        for (int i = 0; i < (Math.min(number, list.size())); i++) {
+            titles.add(list.get(i).getTitle());
+        }
+        queryResult = "Query result: " + titles.toString();
     }
 
     /**
@@ -71,15 +86,13 @@ public final class QueryExec {
      * Checks if an actor has all the awards specified
      * @param actor to be checked
      * @param awards needed
-     * @return
+     * @return true or false
      */
     public boolean hasAwards(final Actor actor, final List<String> awards) {
         boolean semafor = true;
 
         for (String aux: awards) {
-            if (actor.getAwards().containsKey(Utils.stringToAwards(aux))) {
-                continue;
-            } else {
+            if (!actor.getAwards().containsKey(Utils.stringToAwards(aux))) {
                 semafor = false;
                 break;
             }
@@ -91,7 +104,7 @@ public final class QueryExec {
      * Checks if an actor's description contains all the provided words
      * @param actor to be checked
      * @param words list of words needed
-     * @return
+     * @return true or false
      */
     public boolean hasWords(final Actor actor, final List<String> words) {
         boolean semafor = true;
@@ -99,9 +112,7 @@ public final class QueryExec {
         for (String aux: words) {
             Pattern pattern = Pattern.compile(".*\\b" + aux + "\\b.*");
             Matcher matcher = pattern.matcher(actor.getDescription().toLowerCase());
-            if (matcher.find()) {
-                continue;
-            } else {
+            if (!matcher.find()) {
                 semafor = false;
                 break;
             }
@@ -155,18 +166,11 @@ public final class QueryExec {
             copieActori.sort(compareByRatings.reversed());
         }
 
-        queryResult = "Query result: [";
-
+        ArrayList<String> names = new ArrayList<>();
         for (int i = 0; i < (Math.min(number, copieActori.size())); i++) {
-            queryResult = queryResult + copieActori.get(i).getName()  + ", ";
-
+            names.add(copieActori.get(i).getName());
         }
-
-        queryResult = removeLastChar(queryResult);
-        queryResult = removeLastChar(queryResult);
-        queryResult += "]";
-
-
+        queryResult = "Query result: " + names.toString();
     }
 
     /**
@@ -190,17 +194,12 @@ public final class QueryExec {
             copieUsers.sort(compareByRatings.reversed());
         }
 
-        queryResult = "Query result: [";
-
+        ArrayList<String> names = new ArrayList<>();
         for (int i = 0; i < (Math.min(number, copieUsers.size())); i++) {
-            if (copieUsers.get(i).getNoRatings() != 0) {
-                queryResult = queryResult + copieUsers.get(i).getUsername()  + ", ";
-            }
+            names.add(copieUsers.get(i).getUsername());
         }
 
-        queryResult = removeLastChar(queryResult);
-        queryResult = removeLastChar(queryResult);
-        queryResult += "]";
+        queryResult = "Query result: " + names.toString();
     }
 
     /**
@@ -225,17 +224,11 @@ public final class QueryExec {
             copieActori.sort(compareByAwards.reversed());
         }
 
-        if (copieActori.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (Actor actor : copieActori) {
-                queryResult = queryResult + actor.getName() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
+        ArrayList<String> names = new ArrayList<>();
+        for (Actor actor: copieActori) {
+            names.add(actor.getName());
         }
+        queryResult = "Query result: " + names.toString();
     }
 
     /**
@@ -257,19 +250,11 @@ public final class QueryExec {
             copieActori.sort(compareByName.reversed());
         }
 
-
-
-        if (copieActori.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (Actor actor : copieActori) {
-                queryResult = queryResult + actor.getName() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
+        ArrayList<String> names = new ArrayList<>();
+        for (Actor actor: copieActori) {
+            names.add(actor.getName());
         }
+        queryResult = "Query result: " + names.toString();
     }
 
     /**
@@ -302,18 +287,7 @@ public final class QueryExec {
             copieFilme.sort(compareByRating.reversed());
         }
 
-
-        if (copieFilme.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
-                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createMovieResult(copieFilme, number);
     }
 
     /**
@@ -348,17 +322,7 @@ public final class QueryExec {
             copieSeriale.sort(compareByRating.reversed());
         }
 
-        if (copieSeriale.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieSeriale.size())); i++) {
-                queryResult = queryResult + copieSeriale.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createShowResult(copieSeriale, number);
     }
 
     /**
@@ -391,17 +355,7 @@ public final class QueryExec {
             copieFilme.sort(compareByDuration.reversed());
         }
 
-        if (copieFilme.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
-                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createMovieResult(copieFilme, number);
     }
 
     /**
@@ -434,17 +388,7 @@ public final class QueryExec {
             copieSeriale.sort(compareByDuration.reversed());
         }
 
-        if (copieSeriale.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieSeriale.size())); i++) {
-                queryResult = queryResult + copieSeriale.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createShowResult(copieSeriale, number);
     }
 
     /**
@@ -479,17 +423,7 @@ public final class QueryExec {
         }
 
 
-        if (copieFilme.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
-                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createMovieResult(copieFilme, number);
     }
 
     /**
@@ -523,17 +457,7 @@ public final class QueryExec {
             copieSeriale.sort(cmpByFavNumber.reversed());
         }
 
-        if (copieSeriale.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieSeriale.size())); i++) {
-                queryResult = queryResult + copieSeriale.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createShowResult(copieSeriale, number);
     }
 
     /**
@@ -567,17 +491,7 @@ public final class QueryExec {
             copieFilme.sort(compareByViewNumber.reversed());
         }
 
-        if (copieFilme.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieFilme.size())); i++) {
-                queryResult = queryResult + copieFilme.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createMovieResult(copieFilme, number);
     }
 
     /**
@@ -586,21 +500,21 @@ public final class QueryExec {
      * @param sortType asc/desc
      * @param seriale database provided
      * @param users database provided
-     * @param filtre for shows provided
+     * @param filtres for shows provided
      */
     public void getViewedShows(final int number, final String sortType, final ShowDB seriale,
-                               final UserDB users, final List<List<String>> filtre) {
+                               final UserDB users, final List<List<String>> filtres) {
         ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
         Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
         Comparator<Show> compareByViewNumber = Comparator.comparingInt(o -> o.nrOfViews(users));
 
         copieSeriale.removeIf(aux -> aux.nrOfViews(users) == 0);
-        if (filtre.get(0).get(0) != null) {
+        if (filtres.get(0).get(0) != null) {
             copieSeriale.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtre.get(0).get(0)));
+                    != Integer.parseInt(filtres.get(0).get(0)));
         }
-        if (filtre.get(1).get(0) != null) {
-            copieSeriale.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        if (filtres.get(1).get(0) != null) {
+            copieSeriale.removeIf(aux -> !aux.getGenres().contains(filtres.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
@@ -611,19 +525,8 @@ public final class QueryExec {
             copieSeriale.sort(compareByViewNumber.reversed());
         }
 
-        if (copieSeriale.size() == 0) {
-            queryResult = "Query result: []";
-        } else {
-            queryResult = "Query result: [";
-            for (int i = 0; i < (Math.min(number, copieSeriale.size())); i++) {
-                queryResult = queryResult + copieSeriale.get(i).getTitle() + ", ";
-            }
-            queryResult = removeLastChar(queryResult);
-            queryResult = removeLastChar(queryResult);
-            queryResult += "]";
-        }
+        createShowResult(copieSeriale, number);
     }
-
 
     public String getResult() {
         return queryResult;

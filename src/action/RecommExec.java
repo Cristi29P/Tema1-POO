@@ -30,6 +30,7 @@ public final class RecommExec {
         videoclipuri.addAll(seriale.getShows());
         User auxUser = null;
 
+        // Gasim userul
         for (User aux: users.getUsers()) {
             if (aux.getUsername().equals(username)) {
                 auxUser = aux;
@@ -38,6 +39,7 @@ public final class RecommExec {
         recommendResult = "StandardRecommendation cannot be applied!";
         for (Video aux: videoclipuri) {
             assert auxUser != null;
+            // Gasim primul video nevazut
             if (!auxUser.getHistory().containsKey(aux.getTitle())) {
                 recommendResult = "StandardRecommendation result: " + aux.getTitle();
                 break;

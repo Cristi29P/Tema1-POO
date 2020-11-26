@@ -112,21 +112,21 @@ public final class CommandExec {
                           final double grade, final int seasonNr,
                           final MovieDB filme, final ShowDB seriale) {
         for (User user: users) {
-            if (user.getUsername().equals(username)) { // CAUTAM USERUL
-                if (user.getHistory().containsKey(title)) { // ESTE VAZUT CA SA PUTEM DA RATING
-                    if (isMovie(title, filme)) { // ESTE FILM
-                        Movie aux = getMovieHook(title, filme); // PRELUAM FILMUL
+            if (user.getUsername().equals(username)) { // Cautam userul
+                if (user.getHistory().containsKey(title)) { // Este vazut ca sa putem da rating
+                    if (isMovie(title, filme)) { // Este film
+                        Movie aux = getMovieHook(title, filme); // Preluam filmul
                         assert aux != null;
-                        if (aux.getUserRated().contains(username)) { // A DAT RATING INAINTE
+                        if (aux.getUserRated().contains(username)) { // A dat rating inainte
                             commandResult = "error -> " + title + " has been already rated";
-                        } else { // NU A DAT RATING INAINTE
+                        } else { // Nu a dat rating
                             aux.getUserRated().add(username);
                             aux.getRatings().add(grade);
                             user.setNoRatings(user.getNoRatings() + 1);
                             commandResult = "success -> " + title + " was rated with "
                                     + grade + " by " + username;
                         }
-                    } else { // ESTE SERIAL
+                    } else { // Este serial
                         Show aux = getShowHook(title, seriale);
                         assert aux != null;
                         if (aux.getSezoane().get(seasonNr - 1).getUserRated().contains(username)) {
@@ -139,7 +139,7 @@ public final class CommandExec {
                                     + grade + " by " + username;
                         }
                     }
-                } else { // NU A FOST VAZUT, NU PUTEM DA RATING
+                } else { // Nu a fost vazut, nu putem da rating
                     commandResult = "error -> " + title + " is not seen";
                 }
             }
