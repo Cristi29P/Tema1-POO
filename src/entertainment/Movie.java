@@ -45,27 +45,8 @@ public final class Movie extends Video {
         return counter;
     }
 
-    /**
-     * Returns the total number of views of a movie in a database
-     * @param users database provided
-     * @return total number of views
-     */
-    public int nrOfViews(final UserDB users) {
-        int counter = 0;
-        for (int i = 0; i < users.getUsers().size(); i++) {
-            if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
-                counter += users.getUsers().get(i).getHistory().get(this.getTitle());
-            }
-        }
-        return counter;
-    }
-
     public int getLength() {
         return movieLength;
-    }
-
-    public void setMovieLength(final int movieLength) {
-        this.movieLength = movieLength;
     }
 
     public ArrayList<Double> getRatings() {

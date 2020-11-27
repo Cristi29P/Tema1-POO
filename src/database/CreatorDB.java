@@ -79,7 +79,7 @@ public final class CreatorDB {
 
         for (SerialInputData aux: showsInput) {
             Show showAux = new Show(aux.getTitle(), aux.getYear(), aux.getCast(), aux.getGenres(),
-                    aux.getNumberSeason(), aux.getSeasons());
+                    aux.getSeasons());
             shows.add(showAux);
         }
         return new ShowDB(shows);

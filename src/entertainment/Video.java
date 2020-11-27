@@ -64,14 +64,6 @@ public class Video {
     }
 
     /**
-     * Sets a launch year for the video
-     * @param launchYear provided
-     */
-    public void setLaunchYear(final int launchYear) {
-        this.launchYear = launchYear;
-    }
-
-    /**
      * Returns a list containing the video cast
      * @return arraylist of strings
      */
@@ -101,6 +93,21 @@ public class Video {
      */
     public void setGenres(final ArrayList<String> genres) {
         this.genres = genres;
+    }
+
+    /**
+     * Returns the total number of views of the current show
+     * @param users database provided
+     * @return the number of views
+     */
+    public int nrOfViews(final UserDB users) {
+        int counter = 0;
+        for (int i = 0; i < users.getUsers().size(); i++) {
+            if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
+                counter += users.getUsers().get(i).getHistory().get(this.getTitle());
+            }
+        }
+        return counter;
     }
 
 }

@@ -5,14 +5,11 @@ import database.UserDB;
 import java.util.ArrayList;
 
 public final class Show extends Video {
-    private int numberOfSeasons;
     private ArrayList<Season> seasons;
 
     public Show(final String title, final int launchYear, final ArrayList<String> cast,
-                final ArrayList<String> genres, final int numberOfSeasons,
-                final ArrayList<Season> seasons) {
+                final ArrayList<String> genres, final ArrayList<Season> seasons) {
         super(title, launchYear, cast, genres);
-        this.numberOfSeasons = numberOfSeasons;
         this.seasons = seasons;
     }
 
@@ -42,21 +39,6 @@ public final class Show extends Video {
     }
 
     /**
-     * Returns the total number of views of the current show
-     * @param users database provided
-     * @return the number of views
-     */
-    public int nrOfViews(final UserDB users) {
-        int counter = 0;
-        for (int i = 0; i < users.getUsers().size(); i++) {
-            if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
-                counter += users.getUsers().get(i).getHistory().get(this.getTitle());
-            }
-        }
-        return counter;
-    }
-
-    /**
      * Computes show total duration
      * @return total duration
      */
@@ -66,10 +48,6 @@ public final class Show extends Video {
             sum += season.getDuration();
         }
         return sum;
-    }
-
-    public void setNumberOfSeasons(final int numberOfSeasons) {
-        this.numberOfSeasons = numberOfSeasons;
     }
 
     public ArrayList<Season> getSeasons() {

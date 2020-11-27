@@ -101,11 +101,12 @@ public final class RecExec {
      */
     public void searchRec(final String username, final String genre, final MovieDB movies,
                           final ShowDB shows, final UserDB users) {
-        ArrayList<Video> videos = new ArrayList<>();
         ArrayList<Video> videosSort = new ArrayList<>();
+        ArrayList<Video> videos = new ArrayList<>();
         videos.addAll(movies.getMovies());
         videos.addAll(shows.getShows());
-        User auxUser = null;
+        User auxUser;
+        auxUser = null;
 
         for (User aux: users.getUsers()) {
             if (aux.getUsername().equals(username)) {
@@ -171,7 +172,8 @@ public final class RecExec {
      */
     public void popularRec(final String username, final MovieDB movies, final ShowDB shows,
                            final UserDB users) {
-        ArrayList<Video> videos = new ArrayList<>();
+        ArrayList<Video> videos;
+        videos = new ArrayList<>();
         videos.addAll(movies.getMovies());
         videos.addAll(shows.getShows());
         User auxUser = null;

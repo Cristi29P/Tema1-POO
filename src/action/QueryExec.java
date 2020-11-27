@@ -143,6 +143,9 @@ public final class QueryExec {
      * @param movies database provided
      * @param shows database provided
      */
+
+
+
     public void getAverage(final int number, final String sortType, final ActorDB actors,
                            final MovieDB movies, final ShowDB shows) {
         ArrayList<Actor> actorsCopy = new ArrayList<>(actors.getActors());
@@ -153,17 +156,15 @@ public final class QueryExec {
 
         actorsCopy.removeIf(actor -> actor.getAverageRating() == 0);
 
-
-
         Comparator<Actor> compareByRatings = Comparator.comparingDouble(Actor::getAverageRating);
         Comparator<Actor> compareByName = Comparator.comparing(Actor::getName);
 
-        if (sortType.equals("asc")) {
-            actorsCopy.sort(compareByName);
-            actorsCopy.sort(compareByRatings);
-        } else {
+        if (sortType.equals("desc")) {
             actorsCopy.sort(compareByName.reversed());
             actorsCopy.sort(compareByRatings.reversed());
+        } else {
+            actorsCopy.sort(compareByName);
+            actorsCopy.sort(compareByRatings);
         }
 
         ArrayList<String> names = new ArrayList<>();
@@ -219,7 +220,7 @@ public final class QueryExec {
         if (sortType.equals("asc")) {
             actorsCopy.sort(compareByName);
             actorsCopy.sort(compareByAwards);
-        } else {
+        } else if (sortType.equals("desc")) {
             actorsCopy.sort(compareByName.reversed());
             actorsCopy.sort(compareByAwards.reversed());
         }
@@ -300,24 +301,7 @@ public final class QueryExec {
 
         showsCopy.removeIf(aux -> aux.doRating() == 0);
 
-        if (filters.get(0).get(0) != null) {
-            showsCopy.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filters.get(0).get(0)));
-        }
-
-        if (filters.get(1).get(0) != null) {
-            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
-        }
-
-        if (sortType.equals("asc")) {
-            showsCopy.sort(compareByTitle);
-            showsCopy.sort(compareByRating);
-        } else {
-            showsCopy.sort(compareByTitle.reversed());
-            showsCopy.sort(compareByRating.reversed());
-        }
-
-        createShowResult(showsCopy, number);
+        filterAppShow(number, sortType, filters, showsCopy, compareByTitle, compareByRating);
     }
 
     /**
@@ -333,7 +317,19 @@ public final class QueryExec {
         Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
         Comparator<Movie> compareByDuration = Comparator.comparingInt(Movie::getLength);
 
-        if (filters.get(0).get(0) != null) {
+        filterAppMovie(number, sortType, filters, moviesCopy, compareByTitle, compareByDuration);
+    }
+
+    /**
+     * Applies filters on movies
+     */
+    private void filterAppMovie(final int number, final String sortType,
+                                final List<List<String>> filters,
+                                final ArrayList<Movie> moviesCopy,
+                                final Comparator<Movie> compareByTitle,
+                                final Comparator<Movie> compareByDuration) {
+        int filterNumber = 0;
+        if (filters.get(filterNumber).get(0) != null) {
             moviesCopy.removeIf(aux -> aux.getLaunchYear()
                     != Integer.parseInt(filters.get(0).get(0)));
         }
@@ -366,24 +362,7 @@ public final class QueryExec {
         Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
         Comparator<Show> compareByDuration = Comparator.comparingInt(Show::getLength);
 
-        if (filters.get(0).get(0) != null) {
-            showsCopy.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filters.get(0).get(0)));
-        }
-
-        if (filters.get(1).get(0) != null) {
-            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
-        }
-
-        if (sortType.equals("asc")) {
-            showsCopy.sort(compareByTitle);
-            showsCopy.sort(compareByDuration);
-        } else {
-            showsCopy.sort(compareByTitle.reversed());
-            showsCopy.sort(compareByDuration.reversed());
-        }
-
-        createShowResult(showsCopy, number);
+        filterAppShow(number, sortType, filters, showsCopy, compareByTitle, compareByDuration);
     }
 
     /**
@@ -401,24 +380,7 @@ public final class QueryExec {
         Comparator<Movie> compareByFavNr = Comparator.comparingInt(o -> o.nrOfFavorites(users));
 
         moviesCopy.removeIf(aux -> aux.nrOfFavorites(users) == 0);
-        if (filters.get(0).get(0) != null) {
-            moviesCopy.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filters.get(0).get(0)));
-        }
-        if (filters.get(1).get(0) != null) {
-            moviesCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
-        }
-
-        if (sortType.equals("asc")) {
-            moviesCopy.sort(compareByTitle);
-            moviesCopy.sort(compareByFavNr);
-        } else {
-            moviesCopy.sort(compareByTitle.reversed());
-            moviesCopy.sort(compareByFavNr.reversed());
-        }
-
-
-        createMovieResult(moviesCopy, number);
+        filterAppMovie(number, sortType, filters, moviesCopy, compareByTitle, compareByFavNr);
     }
 
     /**
@@ -436,23 +398,7 @@ public final class QueryExec {
         Comparator<Show> cmpByFavNumber = Comparator.comparingInt(o -> o.nrOfFavorites(users));
 
         showsCopy.removeIf(aux -> aux.nrOfFavorites(users) == 0);
-        if (filters.get(0).get(0) != null) {
-            showsCopy.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filters.get(0).get(0)));
-        }
-        if (filters.get(1).get(0) != null) {
-            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
-        }
-
-        if (sortType.equals("asc")) {
-            showsCopy.sort(cmpByTitle);
-            showsCopy.sort(cmpByFavNumber);
-        } else {
-            showsCopy.sort(cmpByTitle.reversed());
-            showsCopy.sort(cmpByFavNumber.reversed());
-        }
-
-        createShowResult(showsCopy, number);
+        filterAppShow(number, sortType, filters, showsCopy, cmpByTitle, cmpByFavNumber);
     }
 
     /**
@@ -470,23 +416,7 @@ public final class QueryExec {
         Comparator<Movie> compareByViewNumber = Comparator.comparingInt(o -> o.nrOfViews(users));
 
         moviesCopy.removeIf(aux -> aux.nrOfViews(users) == 0);
-        if (filters.get(0).get(0) != null) {
-            moviesCopy.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filters.get(0).get(0)));
-        }
-        if (filters.get(1).get(0) != null) {
-            moviesCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
-        }
-
-        if (sortType.equals("asc")) {
-            moviesCopy.sort(compareByTitle);
-            moviesCopy.sort(compareByViewNumber);
-        } else {
-            moviesCopy.sort(compareByTitle.reversed());
-            moviesCopy.sort(compareByViewNumber.reversed());
-        }
-
-        createMovieResult(moviesCopy, number);
+        filterAppMovie(number, sortType, filters, moviesCopy, compareByTitle, compareByViewNumber);
     }
 
     /**
@@ -504,13 +434,26 @@ public final class QueryExec {
         Comparator<Show> compareByViewNumber = Comparator.comparingInt(o -> o.nrOfViews(users));
 
         showsCopy.removeIf(aux -> aux.nrOfViews(users) == 0);
+        filterAppShow(number, sortType, filters, showsCopy, compareByTitle, compareByViewNumber);
+    }
+
+    /**
+     * Applies filter on show
+     */
+    private void filterAppShow(final int number, final String sortType,
+                               final List<List<String>> filters, final ArrayList<Show> showsCopy,
+                               final Comparator<Show> compareByTitle,
+                               final Comparator<Show> compareByViewNumber) {
+
+        if (filters.get(1).get(0) != null) {
+            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
+        }
+
         if (filters.get(0).get(0) != null) {
             showsCopy.removeIf(aux -> aux.getLaunchYear()
                     != Integer.parseInt(filters.get(0).get(0)));
         }
-        if (filters.get(1).get(0) != null) {
-            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
-        }
+
 
         if (sortType.equals("asc")) {
             showsCopy.sort(compareByTitle);
