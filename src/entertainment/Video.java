@@ -27,7 +27,7 @@ public class Video {
      * @param users database provided
      * @return number of favorite apparitions
      */
-    public int nrOfFavs(final UserDB users) {
+    public int nrOfFavorites(final UserDB users) {
         return 0;
     }
 

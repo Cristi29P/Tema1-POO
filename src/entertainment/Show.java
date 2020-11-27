@@ -6,39 +6,39 @@ import java.util.ArrayList;
 
 public final class Show extends Video {
     private int numberOfSeasons;
-    private ArrayList<Season> sezoane;
+    private ArrayList<Season> seasons;
 
     public Show(final String title, final int launchYear, final ArrayList<String> cast,
                 final ArrayList<String> genres, final int numberOfSeasons,
-                final ArrayList<Season> sezoane) {
+                final ArrayList<Season> seasons) {
         super(title, launchYear, cast, genres);
         this.numberOfSeasons = numberOfSeasons;
-        this.sezoane = sezoane;
+        this.seasons = seasons;
     }
 
     @Override
     public double doRating() {
         double sum = 0;
-        for (Season season : sezoane) {
+        for (Season season : seasons) {
             sum += season.doSeasonRating();
         }
 
-        if (sezoane.size() != 0) {
-            return sum / sezoane.size();
+        if (seasons.size() != 0) {
+            return sum / seasons.size();
         } else {
             return 0;
         }
     }
 
     @Override
-    public int nrOfFavs(final UserDB users) {
-        int contor = 0;
+    public int nrOfFavorites(final UserDB users) {
+        int counter = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getFavMovies().contains(this.getTitle())) {
-                contor++;
+                counter++;
             }
         }
-        return contor;
+        return counter;
     }
 
     /**
@@ -47,13 +47,13 @@ public final class Show extends Video {
      * @return the number of views
      */
     public int nrOfViews(final UserDB users) {
-        int contor = 0;
+        int counter = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
-                contor += users.getUsers().get(i).getHistory().get(this.getTitle());
+                counter += users.getUsers().get(i).getHistory().get(this.getTitle());
             }
         }
-        return contor;
+        return counter;
     }
 
     /**
@@ -62,7 +62,7 @@ public final class Show extends Video {
      */
     public int getLength() {
         int sum = 0;
-        for (Season season : sezoane) {
+        for (Season season : seasons) {
             sum += season.getDuration();
         }
         return sum;
@@ -72,12 +72,12 @@ public final class Show extends Video {
         this.numberOfSeasons = numberOfSeasons;
     }
 
-    public ArrayList<Season> getSezoane() {
-        return sezoane;
+    public ArrayList<Season> getSeasons() {
+        return seasons;
     }
 
-    public void setSezoane(final ArrayList<Season> sezoane) {
-        this.sezoane = sezoane;
+    public void setSeasons(final ArrayList<Season> seasons) {
+        this.seasons = seasons;
     }
 
 }

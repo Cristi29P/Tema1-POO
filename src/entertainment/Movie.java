@@ -35,14 +35,14 @@ public final class Movie extends Video {
     }
 
     @Override
-    public int nrOfFavs(final UserDB users) {
-        int contor = 0;
+    public int nrOfFavorites(final UserDB users) {
+        int counter = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getFavMovies().contains(this.getTitle())) {
-                contor++;
+                counter++;
             }
         }
-        return contor;
+        return counter;
     }
 
     /**
@@ -51,13 +51,13 @@ public final class Movie extends Video {
      * @return total number of views
      */
     public int nrOfViews(final UserDB users) {
-        int contor = 0;
+        int counter = 0;
         for (int i = 0; i < users.getUsers().size(); i++) {
             if (users.getUsers().get(i).getHistory().containsKey(this.getTitle())) {
-                contor += users.getUsers().get(i).getHistory().get(this.getTitle());
+                counter += users.getUsers().get(i).getHistory().get(this.getTitle());
             }
         }
-        return contor;
+        return counter;
     }
 
     public int getLength() {

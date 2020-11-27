@@ -49,34 +49,34 @@ public final class QueryExec {
 
     /**
      * Calculates the average of an actor based on the ratings of the video he/she appears in
-     * @param actor caruia i se calculeaza average-ul
-     * @param filme in which he/she played
-     * @param seriale in which he/she played
+     * @param actor of whom we calculate the average of
+     * @param movies in which he/she played
+     * @param shows in which he/she played
      */
-    public static void doActorAvg(final Actor actor, final MovieDB filme, final ShowDB seriale) {
-        ArrayList<Video> videoclipuri = new ArrayList<>();
-        videoclipuri.addAll(filme.getMovies());
-        videoclipuri.addAll(seriale.getShows());
+    public static void doActorAvg(final Actor actor, final MovieDB movies, final ShowDB shows) {
+        ArrayList<Video> videos = new ArrayList<>();
+        videos.addAll(movies.getMovies());
+        videos.addAll(shows.getShows());
 
         double sum = 0;
-        int contor = 0;
+        int counter = 0;
 
         for (String auxString: actor.getFilmography()) {
-            for (Video auxVideo: videoclipuri) {
+            for (Video auxVideo: videos) {
                 if (auxVideo.getTitle().equals(auxString)) {
                     if (auxVideo.doRating() != 0) {
                         sum += auxVideo.doRating();
-                        contor++;
+                        counter++;
                     }
                     break;
                 }
             }
         }
 
-        if (contor == 0) {
+        if (counter == 0) {
             actor.setAverageRating(0);
         } else {
-            sum /= contor;
+            sum /= counter;
             actor.setAverageRating(sum);
         }
 
@@ -89,15 +89,15 @@ public final class QueryExec {
      * @return true or false
      */
     public boolean hasAwards(final Actor actor, final List<String> awards) {
-        boolean semafor = true;
+        boolean checker = true;
 
         for (String aux: awards) {
             if (!actor.getAwards().containsKey(Utils.stringToAwards(aux))) {
-                semafor = false;
+                checker = false;
                 break;
             }
         }
-        return semafor;
+        return checker;
     }
 
     /**
@@ -107,17 +107,17 @@ public final class QueryExec {
      * @return true or false
      */
     public boolean hasWords(final Actor actor, final List<String> words) {
-        boolean semafor = true;
+        boolean checker = true;
 
         for (String aux: words) {
             Pattern pattern = Pattern.compile(".*\\b" + aux + "\\b.*");
             Matcher matcher = pattern.matcher(actor.getDescription().toLowerCase());
             if (!matcher.find()) {
-                semafor = false;
+                checker = false;
                 break;
             }
         }
-        return semafor;
+        return checker;
     }
 
     /**
@@ -126,32 +126,32 @@ public final class QueryExec {
      * @return number of awards
      */
     public int numberOfAwards(final Actor actor) {
-        int contorAwards = 0;
+        int counterAwards = 0;
 
         for (Map.Entry<ActorsAwards, Integer> entry: actor.getAwards().entrySet()) {
-            contorAwards += entry.getValue();
+            counterAwards += entry.getValue();
         }
 
-        return contorAwards;
+        return counterAwards;
     }
 
     /**
      * Main function to compute first actors based on their averages
      * @param number of actors returned
      * @param sortType asc/desc
-     * @param actori database provided
-     * @param filme database provided
-     * @param seriale database provided
+     * @param actors database provided
+     * @param movies database provided
+     * @param shows database provided
      */
-    public void getAverage(final int number, final String sortType, final ActorDB actori,
-                           final MovieDB filme, final ShowDB seriale) {
-        ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
+    public void getAverage(final int number, final String sortType, final ActorDB actors,
+                           final MovieDB movies, final ShowDB shows) {
+        ArrayList<Actor> actorsCopy = new ArrayList<>(actors.getActors());
 
-        for (Actor auxActor: copieActori) {
-            doActorAvg(auxActor, filme, seriale);
+        for (Actor auxActor: actorsCopy) {
+            doActorAvg(auxActor, movies, shows);
         }
 
-        copieActori.removeIf(actor -> actor.getAverageRating() == 0);
+        actorsCopy.removeIf(actor -> actor.getAverageRating() == 0);
 
 
 
@@ -159,16 +159,16 @@ public final class QueryExec {
         Comparator<Actor> compareByName = Comparator.comparing(Actor::getName);
 
         if (sortType.equals("asc")) {
-            copieActori.sort(compareByName);
-            copieActori.sort(compareByRatings);
+            actorsCopy.sort(compareByName);
+            actorsCopy.sort(compareByRatings);
         } else {
-            copieActori.sort(compareByName.reversed());
-            copieActori.sort(compareByRatings.reversed());
+            actorsCopy.sort(compareByName.reversed());
+            actorsCopy.sort(compareByRatings.reversed());
         }
 
         ArrayList<String> names = new ArrayList<>();
-        for (int i = 0; i < (Math.min(number, copieActori.size())); i++) {
-            names.add(copieActori.get(i).getName());
+        for (int i = 0; i < (Math.min(number, actorsCopy.size())); i++) {
+            names.add(actorsCopy.get(i).getName());
         }
         queryResult = "Query result: " + names.toString();
     }
@@ -180,23 +180,23 @@ public final class QueryExec {
      * @param users database provided
      */
     public void getNumberOfRatings(final int number, final String sortType, final UserDB users) {
-        ArrayList<User> copieUsers = new ArrayList<>(users.getUsers());
+        ArrayList<User> usersCopy = new ArrayList<>(users.getUsers());
         Comparator<User> compareByRatings = Comparator.comparingInt(User::getNoRatings);
         Comparator<User> compareByName = Comparator.comparing(User::getUsername);
 
-        copieUsers.removeIf(user -> user.getNoRatings() == 0);
+        usersCopy.removeIf(user -> user.getNoRatings() == 0);
 
         if (sortType.equals("asc")) {
-            copieUsers.sort(compareByName);
-            copieUsers.sort(compareByRatings);
+            usersCopy.sort(compareByName);
+            usersCopy.sort(compareByRatings);
         } else {
-            copieUsers.sort(compareByName.reversed());
-            copieUsers.sort(compareByRatings.reversed());
+            usersCopy.sort(compareByName.reversed());
+            usersCopy.sort(compareByRatings.reversed());
         }
 
         ArrayList<String> names = new ArrayList<>();
-        for (int i = 0; i < (Math.min(number, copieUsers.size())); i++) {
-            names.add(copieUsers.get(i).getUsername());
+        for (int i = 0; i < (Math.min(number, usersCopy.size())); i++) {
+            names.add(usersCopy.get(i).getUsername());
         }
 
         queryResult = "Query result: " + names.toString();
@@ -205,27 +205,27 @@ public final class QueryExec {
     /**
      * Computes the most awarded actors based on the number of awards received and their types
      * @param sortType asc/desc
-     * @param actori database provided
-     * @param filtre for awards provided
+     * @param actors database provided
+     * @param filters for awards provided
      */
-    public void getByAwards(final String sortType, final ActorDB actori,
-                            final List<List<String>> filtre) {
-        ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
+    public void getByAwards(final String sortType, final ActorDB actors,
+                            final List<List<String>> filters) {
+        ArrayList<Actor> actorsCopy = new ArrayList<>(actors.getActors());
         Comparator<Actor> compareByName = Comparator.comparing(Actor::getName);
         Comparator<Actor> compareByAwards = Comparator.comparingInt(this::numberOfAwards);
 
-        copieActori.removeIf(aux -> !hasAwards(aux, filtre.get(filtre.size() - 1)));
+        actorsCopy.removeIf(aux -> !hasAwards(aux, filters.get(filters.size() - 1)));
 
         if (sortType.equals("asc")) {
-            copieActori.sort(compareByName);
-            copieActori.sort(compareByAwards);
+            actorsCopy.sort(compareByName);
+            actorsCopy.sort(compareByAwards);
         } else {
-            copieActori.sort(compareByName.reversed());
-            copieActori.sort(compareByAwards.reversed());
+            actorsCopy.sort(compareByName.reversed());
+            actorsCopy.sort(compareByAwards.reversed());
         }
 
         ArrayList<String> names = new ArrayList<>();
-        for (Actor actor: copieActori) {
+        for (Actor actor: actorsCopy) {
             names.add(actor.getName());
         }
         queryResult = "Query result: " + names.toString();
@@ -234,24 +234,24 @@ public final class QueryExec {
     /**
      * Computes the actors that have a specific description
      * @param sortType asc/desc
-     * @param actori database provided
-     * @param filtre for words provided
+     * @param actors database provided
+     * @param filters for words provided
      */
-    public void getByDescription(final String sortType, final ActorDB actori,
-                                 final List<List<String>> filtre) {
-        ArrayList<Actor> copieActori = new ArrayList<>(actori.getActors());
+    public void getByDescription(final String sortType, final ActorDB actors,
+                                 final List<List<String>> filters) {
+        ArrayList<Actor> actorsCopy = new ArrayList<>(actors.getActors());
         Comparator<Actor> compareByName = Comparator.comparing(Actor::getName);
 
-        copieActori.removeIf(aux -> !hasWords(aux, filtre.get(2)));
+        actorsCopy.removeIf(aux -> !hasWords(aux, filters.get(2)));
 
         if (sortType.equals("asc")) {
-            copieActori.sort(compareByName);
+            actorsCopy.sort(compareByName);
         } else {
-            copieActori.sort(compareByName.reversed());
+            actorsCopy.sort(compareByName.reversed());
         }
 
         ArrayList<String> names = new ArrayList<>();
-        for (Actor actor: copieActori) {
+        for (Actor actor: actorsCopy) {
             names.add(actor.getName());
         }
         queryResult = "Query result: " + names.toString();
@@ -261,271 +261,266 @@ public final class QueryExec {
      * Computes the most rated movies based on several criteria
      * @param number of top movies
      * @param sortType asc/desc
-     * @param filme database provided
-     * @param filtre for movies provided
+     * @param movies database provided
+     * @param filters for movies provided
      */
-    public void getRatedMovies(final int number, final String sortType, final MovieDB filme,
-                               final List<List<String>> filtre) {
-        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+    public void getRatedMovies(final int number, final String sortType, final MovieDB movies,
+                               final List<List<String>> filters) {
+        ArrayList<Movie> moviesCopy = new ArrayList<>(movies.getMovies());
         Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
         Comparator<Movie> compareByRating = Comparator.comparingDouble(Movie::doRating);
 
-        // Scot filmele care au rating 0
-        copieFilme.removeIf(aux -> aux.doRating() == 0);
-
-        // Scot filmele care nu corespund anului
-        copieFilme.removeIf(aux -> aux.getLaunchYear() != Integer.parseInt(filtre.get(0).get(0)));
-
-        // Scot filmele care nu corespund genului
-        copieFilme.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        moviesCopy.removeIf(aux -> aux.doRating() == 0);
+        moviesCopy.removeIf(aux -> aux.getLaunchYear() != Integer.parseInt(filters.get(0).get(0)));
+        moviesCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
 
         if (sortType.equals("asc")) {
-            copieFilme.sort(compareByTitle);
-            copieFilme.sort(compareByRating);
+            moviesCopy.sort(compareByTitle);
+            moviesCopy.sort(compareByRating);
         } else {
-            copieFilme.sort(compareByTitle.reversed());
-            copieFilme.sort(compareByRating.reversed());
+            moviesCopy.sort(compareByTitle.reversed());
+            moviesCopy.sort(compareByRating.reversed());
         }
 
-        createMovieResult(copieFilme, number);
+        createMovieResult(moviesCopy, number);
     }
 
     /**
      * Computes the most rated shows based on several criteria
      * @param number of top shows
      * @param sortType asc/desc
-     * @param seriale database provided
-     * @param filtre for shows provided
+     * @param shows database provided
+     * @param filters for shows provided
      */
-    public void getRatedShows(final int number, final String sortType, final ShowDB seriale,
-                              final List<List<String>> filtre) {
-        ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
+    public void getRatedShows(final int number, final String sortType, final ShowDB shows,
+                              final List<List<String>> filters) {
+        ArrayList<Show> showsCopy = new ArrayList<>(shows.getShows());
         Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
         Comparator<Show> compareByRating = Comparator.comparingDouble(Show::doRating);
 
-        copieSeriale.removeIf(aux -> aux.doRating() == 0);
+        showsCopy.removeIf(aux -> aux.doRating() == 0);
 
-        if (filtre.get(0).get(0) != null) {
-            copieSeriale.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtre.get(0).get(0)));
+        if (filters.get(0).get(0) != null) {
+            showsCopy.removeIf(aux -> aux.getLaunchYear()
+                    != Integer.parseInt(filters.get(0).get(0)));
         }
 
-        if (filtre.get(1).get(0) != null) {
-            copieSeriale.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        if (filters.get(1).get(0) != null) {
+            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
-            copieSeriale.sort(compareByTitle);
-            copieSeriale.sort(compareByRating);
+            showsCopy.sort(compareByTitle);
+            showsCopy.sort(compareByRating);
         } else {
-            copieSeriale.sort(compareByTitle.reversed());
-            copieSeriale.sort(compareByRating.reversed());
+            showsCopy.sort(compareByTitle.reversed());
+            showsCopy.sort(compareByRating.reversed());
         }
 
-        createShowResult(copieSeriale, number);
+        createShowResult(showsCopy, number);
     }
 
     /**
      * Computes the longest movies based on several criteria
      * @param number of top movies returned
      * @param sortType asc/desc
-     * @param filme database
-     * @param filtre for the movies provided
+     * @param movies database
+     * @param filters for the movies provided
      */
-    public void getLongestMovies(final int number, final String sortType, final MovieDB filme,
-                                 final List<List<String>> filtre) {
-        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+    public void getLongestMovies(final int number, final String sortType, final MovieDB movies,
+                                 final List<List<String>> filters) {
+        ArrayList<Movie> moviesCopy = new ArrayList<>(movies.getMovies());
         Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
         Comparator<Movie> compareByDuration = Comparator.comparingInt(Movie::getLength);
 
-        if (filtre.get(0).get(0) != null) {
-            copieFilme.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtre.get(0).get(0)));
+        if (filters.get(0).get(0) != null) {
+            moviesCopy.removeIf(aux -> aux.getLaunchYear()
+                    != Integer.parseInt(filters.get(0).get(0)));
         }
 
-        if (filtre.get(1).get(0) != null) {
-            copieFilme.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        if (filters.get(1).get(0) != null) {
+            moviesCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
-            copieFilme.sort(compareByTitle);
-            copieFilme.sort(compareByDuration);
+            moviesCopy.sort(compareByTitle);
+            moviesCopy.sort(compareByDuration);
         } else {
-            copieFilme.sort(compareByTitle.reversed());
-            copieFilme.sort(compareByDuration.reversed());
+            moviesCopy.sort(compareByTitle.reversed());
+            moviesCopy.sort(compareByDuration.reversed());
         }
 
-        createMovieResult(copieFilme, number);
+        createMovieResult(moviesCopy, number);
     }
 
     /**
      * Computes the longest shows based on several criteria
      * @param number of top shows returned
      * @param sortType asc/desc
-     * @param seriale database provided
-     * @param filtre for shows provided
+     * @param shows database provided
+     * @param filters for shows provided
      */
-    public void getLongestShows(final int number, final String sortType, final ShowDB seriale,
-                                final List<List<String>> filtre) {
-        ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
+    public void getLongestShows(final int number, final String sortType, final ShowDB shows,
+                                final List<List<String>> filters) {
+        ArrayList<Show> showsCopy = new ArrayList<>(shows.getShows());
         Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
         Comparator<Show> compareByDuration = Comparator.comparingInt(Show::getLength);
 
-        if (filtre.get(0).get(0) != null) {
-            copieSeriale.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtre.get(0).get(0)));
+        if (filters.get(0).get(0) != null) {
+            showsCopy.removeIf(aux -> aux.getLaunchYear()
+                    != Integer.parseInt(filters.get(0).get(0)));
         }
 
-        if (filtre.get(1).get(0) != null) {
-            copieSeriale.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        if (filters.get(1).get(0) != null) {
+            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
-            copieSeriale.sort(compareByTitle);
-            copieSeriale.sort(compareByDuration);
+            showsCopy.sort(compareByTitle);
+            showsCopy.sort(compareByDuration);
         } else {
-            copieSeriale.sort(compareByTitle.reversed());
-            copieSeriale.sort(compareByDuration.reversed());
+            showsCopy.sort(compareByTitle.reversed());
+            showsCopy.sort(compareByDuration.reversed());
         }
 
-        createShowResult(copieSeriale, number);
+        createShowResult(showsCopy, number);
     }
 
     /**
      * Computes favorite movies based on their number of appearances in user's favorite lists
      * @param number of favorite movies returned
      * @param sortType asc/desc
-     * @param filme database provided
+     * @param movies database provided
      * @param users database provided
-     * @param filtre for movies provided
+     * @param filters for movies provided
      */
-    public void getFavoriteMovies(final int number, final String sortType, final MovieDB filme,
-                                  final UserDB users, final List<List<String>> filtre) {
-        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+    public void getFavoriteMovies(final int number, final String sortType, final MovieDB movies,
+                                  final UserDB users, final List<List<String>> filters) {
+        ArrayList<Movie> moviesCopy = new ArrayList<>(movies.getMovies());
         Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
-        Comparator<Movie> compareByFavNr = Comparator.comparingInt(o -> o.nrOfFavs(users));
+        Comparator<Movie> compareByFavNr = Comparator.comparingInt(o -> o.nrOfFavorites(users));
 
-        copieFilme.removeIf(aux -> aux.nrOfFavs(users) == 0);
-        if (filtre.get(0).get(0) != null) {
-            copieFilme.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtre.get(0).get(0)));
+        moviesCopy.removeIf(aux -> aux.nrOfFavorites(users) == 0);
+        if (filters.get(0).get(0) != null) {
+            moviesCopy.removeIf(aux -> aux.getLaunchYear()
+                    != Integer.parseInt(filters.get(0).get(0)));
         }
-        if (filtre.get(1).get(0) != null) {
-            copieFilme.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        if (filters.get(1).get(0) != null) {
+            moviesCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
-            copieFilme.sort(compareByTitle);
-            copieFilme.sort(compareByFavNr);
+            moviesCopy.sort(compareByTitle);
+            moviesCopy.sort(compareByFavNr);
         } else {
-            copieFilme.sort(compareByTitle.reversed());
-            copieFilme.sort(compareByFavNr.reversed());
+            moviesCopy.sort(compareByTitle.reversed());
+            moviesCopy.sort(compareByFavNr.reversed());
         }
 
 
-        createMovieResult(copieFilme, number);
+        createMovieResult(moviesCopy, number);
     }
 
     /**
      * Computes favorite shows based on their number of appearances in user's favorite lists
      * @param number of top shows returned
      * @param sortType asc/desc
-     * @param seriale database provided
+     * @param shows database provided
      * @param users database provided
-     * @param filtre for shows provided
+     * @param filters for shows provided
      */
-    public void getFavoriteShows(final int number, final String sortType, final ShowDB seriale,
-                                 final UserDB users, final List<List<String>> filtre) {
-        ArrayList<Show>  copieSeriale = new ArrayList<>(seriale.getShows());
+    public void getFavoriteShows(final int number, final String sortType, final ShowDB shows,
+                                 final UserDB users, final List<List<String>> filters) {
+        ArrayList<Show>  showsCopy = new ArrayList<>(shows.getShows());
         Comparator<Show> cmpByTitle = Comparator.comparing(Show::getTitle);
-        Comparator<Show> cmpByFavNumber = Comparator.comparingInt(o -> o.nrOfFavs(users));
+        Comparator<Show> cmpByFavNumber = Comparator.comparingInt(o -> o.nrOfFavorites(users));
 
-        copieSeriale.removeIf(aux -> aux.nrOfFavs(users) == 0);
-        if (filtre.get(0).get(0) != null) {
-            copieSeriale.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtre.get(0).get(0)));
+        showsCopy.removeIf(aux -> aux.nrOfFavorites(users) == 0);
+        if (filters.get(0).get(0) != null) {
+            showsCopy.removeIf(aux -> aux.getLaunchYear()
+                    != Integer.parseInt(filters.get(0).get(0)));
         }
-        if (filtre.get(1).get(0) != null) {
-            copieSeriale.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        if (filters.get(1).get(0) != null) {
+            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
-            copieSeriale.sort(cmpByTitle);
-            copieSeriale.sort(cmpByFavNumber);
+            showsCopy.sort(cmpByTitle);
+            showsCopy.sort(cmpByFavNumber);
         } else {
-            copieSeriale.sort(cmpByTitle.reversed());
-            copieSeriale.sort(cmpByFavNumber.reversed());
+            showsCopy.sort(cmpByTitle.reversed());
+            showsCopy.sort(cmpByFavNumber.reversed());
         }
 
-        createShowResult(copieSeriale, number);
+        createShowResult(showsCopy, number);
     }
 
     /**
      * Computes the most viewed movies based on several criteria
      * @param number of top movies returned
      * @param sortType asc/desc
-     * @param filme database returned
+     * @param movies database returned
      * @param users database returned
-     * @param filtre for movies provided
+     * @param filters for movies provided
      */
-    public void getViewedMovies(final int number, final String sortType, final MovieDB filme,
-                                final UserDB users, final List<List<String>> filtre) {
-        ArrayList<Movie> copieFilme = new ArrayList<>(filme.getMovies());
+    public void getViewedMovies(final int number, final String sortType, final MovieDB movies,
+                                final UserDB users, final List<List<String>> filters) {
+        ArrayList<Movie> moviesCopy = new ArrayList<>(movies.getMovies());
         Comparator<Movie> compareByTitle = Comparator.comparing(Movie::getTitle);
         Comparator<Movie> compareByViewNumber = Comparator.comparingInt(o -> o.nrOfViews(users));
 
-        copieFilme.removeIf(aux -> aux.nrOfViews(users) == 0);
-        if (filtre.get(0).get(0) != null) {
-            copieFilme.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtre.get(0).get(0)));
+        moviesCopy.removeIf(aux -> aux.nrOfViews(users) == 0);
+        if (filters.get(0).get(0) != null) {
+            moviesCopy.removeIf(aux -> aux.getLaunchYear()
+                    != Integer.parseInt(filters.get(0).get(0)));
         }
-        if (filtre.get(1).get(0) != null) {
-            copieFilme.removeIf(aux -> !aux.getGenres().contains(filtre.get(1).get(0)));
+        if (filters.get(1).get(0) != null) {
+            moviesCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
-            copieFilme.sort(compareByTitle);
-            copieFilme.sort(compareByViewNumber);
+            moviesCopy.sort(compareByTitle);
+            moviesCopy.sort(compareByViewNumber);
         } else {
-            copieFilme.sort(compareByTitle.reversed());
-            copieFilme.sort(compareByViewNumber.reversed());
+            moviesCopy.sort(compareByTitle.reversed());
+            moviesCopy.sort(compareByViewNumber.reversed());
         }
 
-        createMovieResult(copieFilme, number);
+        createMovieResult(moviesCopy, number);
     }
 
     /**
      * Computes the most viewed shows based on several criteria
      * @param number of top shows returned
      * @param sortType asc/desc
-     * @param seriale database provided
+     * @param shows database provided
      * @param users database provided
-     * @param filtres for shows provided
+     * @param filters for shows provided
      */
-    public void getViewedShows(final int number, final String sortType, final ShowDB seriale,
-                               final UserDB users, final List<List<String>> filtres) {
-        ArrayList<Show> copieSeriale = new ArrayList<>(seriale.getShows());
+    public void getViewedShows(final int number, final String sortType, final ShowDB shows,
+                               final UserDB users, final List<List<String>> filters) {
+        ArrayList<Show> showsCopy = new ArrayList<>(shows.getShows());
         Comparator<Show> compareByTitle = Comparator.comparing(Show::getTitle);
         Comparator<Show> compareByViewNumber = Comparator.comparingInt(o -> o.nrOfViews(users));
 
-        copieSeriale.removeIf(aux -> aux.nrOfViews(users) == 0);
-        if (filtres.get(0).get(0) != null) {
-            copieSeriale.removeIf(aux -> aux.getLaunchYear()
-                    != Integer.parseInt(filtres.get(0).get(0)));
+        showsCopy.removeIf(aux -> aux.nrOfViews(users) == 0);
+        if (filters.get(0).get(0) != null) {
+            showsCopy.removeIf(aux -> aux.getLaunchYear()
+                    != Integer.parseInt(filters.get(0).get(0)));
         }
-        if (filtres.get(1).get(0) != null) {
-            copieSeriale.removeIf(aux -> !aux.getGenres().contains(filtres.get(1).get(0)));
+        if (filters.get(1).get(0) != null) {
+            showsCopy.removeIf(aux -> !aux.getGenres().contains(filters.get(1).get(0)));
         }
 
         if (sortType.equals("asc")) {
-            copieSeriale.sort(compareByTitle);
-            copieSeriale.sort(compareByViewNumber);
+            showsCopy.sort(compareByTitle);
+            showsCopy.sort(compareByViewNumber);
         } else {
-            copieSeriale.sort(compareByTitle.reversed());
-            copieSeriale.sort(compareByViewNumber.reversed());
+            showsCopy.sort(compareByTitle.reversed());
+            showsCopy.sort(compareByViewNumber.reversed());
         }
 
-        createShowResult(copieSeriale, number);
+        createShowResult(showsCopy, number);
     }
 
     public String getResult() {

@@ -1,6 +1,6 @@
 package main;
 
-import action.ExecStarter;
+import action.StarterExec;
 import checker.Checker;
 import checker.Checkstyle;
 import common.Constants;
@@ -71,7 +71,7 @@ public final class Main {
         Writer fileWriter = new Writer(filePath2);
         JSONArray arrayResult = new JSONArray();
 
-        ExecStarter starter = new ExecStarter(fileWriter, arrayResult, input);
+        StarterExec starter = new StarterExec(fileWriter, arrayResult, input);
         starter.startExecution();
 
         fileWriter.closeJSON(starter.getArrayResult());

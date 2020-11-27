@@ -56,11 +56,11 @@ public final class CommandExec {
     /**
      * Checks if a movie exists in the database
      * @param title of the movie provided
-     * @param filme database provided
+     * @param movies database provided
      * @return true or false if the movie exists or not
      */
-    public boolean isMovie(final String title, final MovieDB filme) {
-        for (Movie aux: filme.getMovies()) {
+    public boolean isMovie(final String title, final MovieDB movies) {
+        for (Movie aux: movies.getMovies()) {
             if (aux.getTitle().equals(title)) {
                 return true;
             }
@@ -71,11 +71,11 @@ public final class CommandExec {
     /**
      * Returns a reference to a specific movie by its title
      * @param title of the movie provided
-     * @param filme database provided
+     * @param movies database provided
      * @return reference to a movie object
      */
-    public Movie getMovieHook(final String title, final MovieDB filme) {
-        for (Movie aux: filme.getMovies()) {
+    public Movie getMovieHook(final String title, final MovieDB movies) {
+        for (Movie aux: movies.getMovies()) {
             if (aux.getTitle().equals(title)) {
                 return aux;
             }
@@ -86,11 +86,11 @@ public final class CommandExec {
     /**
      * Returns a reference to a show by its title
      * @param title of the show provided
-     * @param seriale database provided
+     * @param shows database provided
      * @return a reference to a show object
      */
-    public Show getShowHook(final String title, final ShowDB seriale) {
-        for (Show aux: seriale.getShows()) {
+    public Show getShowHook(final String title, final ShowDB shows) {
+        for (Show aux: shows.getShows()) {
             if (aux.getTitle().equals(title)) {
                 return aux;
             }
@@ -105,41 +105,41 @@ public final class CommandExec {
      * @param users database
      * @param grade of the video
      * @param seasonNr of a show
-     * @param filme database provided
-     * @param seriale database provied
+     * @param movies database provided
+     * @param shows database provided
      */
     public void addRating(final String username, final String title, final ArrayList<User> users,
                           final double grade, final int seasonNr,
-                          final MovieDB filme, final ShowDB seriale) {
+                          final MovieDB movies, final ShowDB shows) {
         for (User user: users) {
-            if (user.getUsername().equals(username)) { // Cautam userul
-                if (user.getHistory().containsKey(title)) { // Este vazut ca sa putem da rating
-                    if (isMovie(title, filme)) { // Este film
-                        Movie aux = getMovieHook(title, filme); // Preluam filmul
+            if (user.getUsername().equals(username)) {
+                if (user.getHistory().containsKey(title)) {
+                    if (isMovie(title, movies)) {
+                        Movie aux = getMovieHook(title, movies);
                         assert aux != null;
-                        if (aux.getUserRated().contains(username)) { // A dat rating inainte
+                        if (aux.getUserRated().contains(username)) {
                             commandResult = "error -> " + title + " has been already rated";
-                        } else { // Nu a dat rating
+                        } else {
                             aux.getUserRated().add(username);
                             aux.getRatings().add(grade);
                             user.setNoRatings(user.getNoRatings() + 1);
                             commandResult = "success -> " + title + " was rated with "
                                     + grade + " by " + username;
                         }
-                    } else { // Este serial
-                        Show aux = getShowHook(title, seriale);
+                    } else {
+                        Show aux = getShowHook(title, shows);
                         assert aux != null;
-                        if (aux.getSezoane().get(seasonNr - 1).getUserRated().contains(username)) {
+                        if (aux.getSeasons().get(seasonNr - 1).getUserRated().contains(username)) {
                             commandResult = "error -> " + title + " has been already rated";
                         } else {
-                            aux.getSezoane().get(seasonNr - 1).getUserRated().add(username);
-                            aux.getSezoane().get(seasonNr - 1).getRatings().add(grade);
+                            aux.getSeasons().get(seasonNr - 1).getUserRated().add(username);
+                            aux.getSeasons().get(seasonNr - 1).getRatings().add(grade);
                             user.setNoRatings(user.getNoRatings() + 1);
                             commandResult = "success -> " + title + " was rated with "
                                     + grade + " by " + username;
                         }
                     }
-                } else { // Nu a fost vazut, nu putem da rating
+                } else {
                     commandResult = "error -> " + title + " is not seen";
                 }
             }
