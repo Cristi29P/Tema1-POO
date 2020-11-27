@@ -29,6 +29,7 @@ public final class StarterExec {
      * Starts the main execution of tasks on all databases
      * @throws IOException exception
      */
+    @SuppressWarnings("unchecked")
     public void startExecution() throws IOException {
         CreatorDB creatorDB = new CreatorDB(input);
         ActorDB actorsDB = creatorDB.generateActorDB();
